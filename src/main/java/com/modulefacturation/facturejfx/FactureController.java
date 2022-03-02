@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextFlow;
 
 import java.io.FileNotFoundException;
@@ -42,6 +43,26 @@ public class FactureController {
     private Label titre;
     @FXML
     private TextFlow alertDanger;
+    @FXML
+    private GridPane vueClient;
+    @FXML
+    private GridPane vuePrestataire;
+    @FXML
+    private TextField nomPresta;
+    @FXML
+    private TextField prenomPresta;
+    @FXML
+    private TextField adressePresta;
+    @FXML
+    private TextField mailPresta;
+    @FXML
+    private TextField siretPresta;
+    @FXML
+    private TextField webPresta;
+    @FXML
+    private TextField telPresta;
+
+
 
 
     private ArrayList<Prestation> listepresta = new ArrayList<Prestation>();
@@ -120,5 +141,34 @@ public class FactureController {
     public void wipeFacture(ActionEvent actionEvent) {
         alertDanger.setVisible(true);
         alertSuccess.setVisible(false);
+    }
+
+    public void retourPrestataire(ActionEvent actionEvent) {
+        vueClient.setVisible(false);
+        vueClient.setDisable(true);
+        vuePrestataire.setDisable(false);
+        vuePrestataire.setVisible(true);
+
+    }
+
+    public void sauvegardeInfoPrestataire(ActionEvent actionEvent) {
+        Prestataire prestataire = new Prestataire(
+                nomPresta.getText(),
+                prenomPresta.getText(),
+                adressePresta.getText(),
+                mailPresta.getText(),
+                siretPresta.getText(),
+                webPresta.getText(),
+                telPresta.getText()
+                );
+        System.out.println("Informations du prestataire Enregistrées");
+
+    }
+
+    public void retourClient(ActionEvent actionEvent) {
+        vueClient.setVisible(true);
+        vueClient.setDisable(false);
+        vuePrestataire.setDisable(true);
+        vuePrestataire.setVisible(false);
     }
 }

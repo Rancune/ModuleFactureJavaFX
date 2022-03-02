@@ -22,59 +22,114 @@
 
 
 
-<GridPane GridPane.columnIndex="0" GridPane.rowIndex="2" hgap="1" vgap="10" styleClass="page" >
+
+
+    <GridPane fx:id="vueClient" disable="false" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="2" hgap="1" vgap="11" styleClass="page" >
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Nom"/>
+        <TextField fx:id="nom" GridPane.columnIndex="1" GridPane.rowIndex="1"  promptText="Nom" styleClass="bg-default" GridPane.hgrow="ALWAYS"/>
+
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="Prénom"/>
+        <TextField fx:id="prenom" GridPane.columnIndex="1" GridPane.rowIndex="2"  promptText="Prénom" styleClass="bg-default" />
+
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="3" text="Adresse"/>
+        <TextField fx:id="adresse" GridPane.columnIndex="1" GridPane.rowIndex="3"  promptText="Adresse" styleClass="bg-default" />
+
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="4" text="Mail"/>
+        <TextField fx:id="mail" GridPane.columnIndex="1" GridPane.rowIndex="4"  promptText="Mail" styleClass="bg-default" />
+
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="5" text="Prestation" textAlignment="LEFT" />
+        <TextArea fx:id="prestation" GridPane.columnIndex="1" GridPane.rowIndex="5"  promptText="Prestation" styleClass="bg-default" />
+
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="6" text="Quantité"/>
+        <TextField fx:id="quantity" GridPane.columnIndex="1" GridPane.rowIndex="6"  promptText="Quantité" styleClass="bg-default" />
+
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="7" text="Prix"/>
+        <TextField fx:id="prix" GridPane.columnIndex="1" GridPane.rowIndex="7"  promptText="Prix" styleClass="bg-default" />
+
+        <TextFlow fx:id="alertSuccess" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
+                  styleClass="alert, alert-success">
+            <Text text="Bouyah!" styleClass="strong"/>
+            <Text text=" La facture a été généré en pdf et envoyé par mail."/>
+        </TextFlow>
+
+       <TextFlow fx:id="alertDanger" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
+                  styleClass="alert, alert-danger">
+            <Text text="CHIMICHANGA!" styleClass="strong"/>
+            <Text text=" Did someone say CHIMICHANGA ? "/>
+        </TextFlow>
+
+        <Button onAction="#generationFacture" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-success" text="Générer Facture" GridPane.halignment="LEFT">        <tooltip>
+            <Tooltip styleClass="tooltip-success" text="success"/>
+            </tooltip>
+        </Button>
+
+        <Button onAction="#wipeFacture" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-danger" text="Annuler Facture" GridPane.halignment="RIGHT"/>
+        <Button onAction="#retourPrestataire" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-default" text="Informations Prestataire" GridPane.halignment="CENTER"/>
 
 
 
+    </GridPane>
 
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Nom"/>
-    <TextField fx:id="nom" GridPane.columnIndex="1" GridPane.rowIndex="1"  promptText="Nom" styleClass="bg-default" GridPane.hgrow="ALWAYS"/>
+
+    <GridPane fx:id="vuePrestataire" disable="true" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="2" hgap="1" vgap="10" styleClass="page" >
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Nom"/>
+        <TextField fx:id="nomPresta" GridPane.columnIndex="1" GridPane.rowIndex="1"  promptText="Nom" styleClass="bg-default" GridPane.hgrow="ALWAYS"/>
 
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="Prénom"/>
-    <TextField fx:id="prenom" GridPane.columnIndex="1" GridPane.rowIndex="2"  promptText="Prénom" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="Prénom"/>
+        <TextField fx:id="prenomPresta" GridPane.columnIndex="1" GridPane.rowIndex="2"  promptText="Prénom" styleClass="bg-default" />
 
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="3" text="Adresse"/>
-    <TextField fx:id="adresse" GridPane.columnIndex="1" GridPane.rowIndex="3"  promptText="Adresse" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="3" text="Adresse"/>
+        <TextField fx:id="adressePresta" GridPane.columnIndex="1" GridPane.rowIndex="3"  promptText="Adresse" styleClass="bg-default" />
 
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="4" text="Mail"/>
-    <TextField fx:id="mail" GridPane.columnIndex="1" GridPane.rowIndex="4"  promptText="Mail" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="4" text="Mail"/>
+        <TextField fx:id="mailPresta" GridPane.columnIndex="1" GridPane.rowIndex="4"  promptText="Mail" styleClass="bg-default" />
 
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="5" text="Prestation" textAlignment="LEFT" />
-    <TextArea fx:id="prestation" GridPane.columnIndex="1" GridPane.rowIndex="5"  promptText="Prestation" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="5" text="Numéro de Siret" textAlignment="LEFT" />
+        <TextField fx:id="siretPresta" GridPane.columnIndex="1" GridPane.rowIndex="5"  promptText="Numero de SIRET" styleClass="bg-default" />
 
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="6" text="Quantité"/>
-    <TextField fx:id="quantity" GridPane.columnIndex="1" GridPane.rowIndex="6"  promptText="Quantité" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="6" text="Site Web"/>
+        <TextField fx:id="webPresta" GridPane.columnIndex="1" GridPane.rowIndex="6"  promptText="Adresse du site web" styleClass="bg-default" />
 
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="7" text="Prix"/>
-    <TextField fx:id="prix" GridPane.columnIndex="1" GridPane.rowIndex="7"  promptText="Prix" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="7" text="Téléphone"/>
+        <TextField fx:id="telPresta" GridPane.columnIndex="1" GridPane.rowIndex="7"  promptText="Numéro de téléphone" styleClass="bg-default" />
 
-    <TextFlow fx:id="alertSuccess" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
-              styleClass="alert, alert-success">
-        <Text text="Bouyah!" styleClass="strong"/>
-        <Text text=" La facture a été généré en pdf et envoyé par mail."/>
-    </TextFlow>
+        <TextFlow fx:id="alertSuccessPresta" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
+                  styleClass="alert, alert-success">
+            <Text text="Bouyah!" styleClass="strong"/>
+            <Text text=" La facture a été généré en pdf et envoyé par mail."/>
+        </TextFlow>
 
-   <TextFlow fx:id="alertDanger" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
-              styleClass="alert, alert-danger">
-        <Text text="CHIMICHANGA!" styleClass="strong"/>
-        <Text text=" Did someone say CHIMICHANGA ? "/>
-    </TextFlow>
+        <TextFlow fx:id="alertDangerPresta" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
+                  styleClass="alert, alert-danger">
+            <Text text="CHIMICHANGA!" styleClass="strong"/>
+            <Text text=" Did someone say CHIMICHANGA ? "/>
+        </TextFlow>
 
-    <Button onAction="#generationFacture" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-success" text="Générer Facture" GridPane.halignment="LEFT">        <tooltip>
-        <Tooltip styleClass="tooltip-success" text="success"/>
+        <Button onAction="#sauvegardeInfoPrestataire" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-success" text="Sauvegarder" GridPane.halignment="LEFT">        <tooltip>
+            <Tooltip styleClass="tooltip-success" text="Enregistre les informations prestataire"/>
         </tooltip>
-    </Button>
+        </Button>
 
-    <Button onAction="#wipeFacture" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-danger" text="Annuler Facture" GridPane.halignment="RIGHT"/>
+        <Button onAction="#retourClient" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-default" text="Informations client" GridPane.halignment="CENTER"/>
 
 
 
-</GridPane>
+    </GridPane>
+
+
 </GridPane>
