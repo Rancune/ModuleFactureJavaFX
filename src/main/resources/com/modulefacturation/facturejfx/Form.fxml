@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import eu.hansolo.tilesfx.Tile?>
+<?import org.kordamp.bootstrapfx.scene.layout.Panel?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
+
+
+
+<GridPane hgap="10" vgap="2" styleClass="page"  xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.modulefacturation.facturejfx.FactureController">
+
+    <padding>
+        <Insets top="30" left="30" bottom="30" right="30"/>
+    </padding>
+
+    <Label fx:id="titre" GridPane.columnIndex="0" GridPane.rowIndex="0" text="Facture" styleClass="h1, b" textAlignment="CENTER"
+           GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.fillWidth="ALWAYS"  GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
+
+
+
+<GridPane GridPane.columnIndex="0" GridPane.rowIndex="2" hgap="1" vgap="10" styleClass="page" >
+
+
+
+
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Nom"/>
+    <TextField fx:id="nom" GridPane.columnIndex="1" GridPane.rowIndex="1"  promptText="Nom" styleClass="bg-default" GridPane.hgrow="ALWAYS"/>
+
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" text="Prénom"/>
+    <TextField fx:id="prenom" GridPane.columnIndex="1" GridPane.rowIndex="2"  promptText="Prénom" styleClass="bg-default" />
+
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="3" text="Adresse"/>
+    <TextField fx:id="adresse" GridPane.columnIndex="1" GridPane.rowIndex="3"  promptText="Adresse" styleClass="bg-default" />
+
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="4" text="Mail"/>
+    <TextField fx:id="mail" GridPane.columnIndex="1" GridPane.rowIndex="4"  promptText="Mail" styleClass="bg-default" />
+
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="5" text="Prestation" textAlignment="LEFT" />
+    <TextArea fx:id="prestation" GridPane.columnIndex="1" GridPane.rowIndex="5"  promptText="Prestation" styleClass="bg-default" />
+
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="6" text="Quantité"/>
+    <TextField fx:id="quantity" GridPane.columnIndex="1" GridPane.rowIndex="6"  promptText="Quantité" styleClass="bg-default" />
+
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="7" text="Prix"/>
+    <TextField fx:id="prix" GridPane.columnIndex="1" GridPane.rowIndex="7"  promptText="Prix" styleClass="bg-default" />
+
+    <TextFlow fx:id="alertSuccess" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
+              styleClass="alert, alert-success">
+        <Text text="Bouyah!" styleClass="strong"/>
+        <Text text=" La facture a été généré en pdf et envoyé par mail."/>
+    </TextFlow>
+
+   <TextFlow fx:id="alertDanger" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
+              styleClass="alert, alert-danger">
+        <Text text="CHIMICHANGA!" styleClass="strong"/>
+        <Text text=" Did someone say CHIMICHANGA ? "/>
+    </TextFlow>
+
+    <Button onAction="#generationFacture" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-success" text="Générer Facture" GridPane.halignment="LEFT">        <tooltip>
+        <Tooltip styleClass="tooltip-success" text="success"/>
+        </tooltip>
+    </Button>
+
+    <Button onAction="#wipeFacture" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-danger" text="Annuler Facture" GridPane.halignment="RIGHT"/>
+
+
+
+</GridPane>
+</GridPane>
