@@ -1,3 +1,0 @@
-#Numero de facture enregistré
-#Mon Feb 28 16:09:29 CET 2022
-numero=1
