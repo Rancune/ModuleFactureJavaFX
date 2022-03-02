@@ -1,20 +1,22 @@
 package com.modulefacturation.facturejfx.facture;
 
+import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.modulefacturation.facturejfx.client.Client;
-import com.modulefacturation.facturejfx.client.Presta;
+import com.modulefacturation.facturejfx.client.Prestation;
+import com.modulefacturation.facturejfx.client.Prestataire;
 
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfDate;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-
 
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import static com.itextpdf.text.BaseColor.LIGHT_GRAY;
 
 public class Facture {
 
@@ -70,20 +72,16 @@ public class Facture {
 
 
 
-
     // ICI on crée le pdf de la facture. Buckle Up !  that's a wild ride.
-    public static void generationPdf(Client client, ArrayList<Presta> liste) throws DocumentException, FileNotFoundException {
+    public static void generationPdf(Prestataire prestataire, Client client, ArrayList<Prestation> liste) throws DocumentException, FileNotFoundException {
 
         Document doc = new Document();
 
         //Le numéro de la facture doit être chronologique et sans rupture ... Fuck.
-        // XXXXXX = date du jour
+
 
         //récupération du numéro de facture
         FactureNumberPersister numero = new FactureNumberPersister("NumeroFacture.txt");
-
-        //numero.serialiseFacture();
-
         try {
             numFacture = String.valueOf(numero.deserialiseFacture().numero);
         } catch (IOException e) {
@@ -92,10 +90,10 @@ public class Facture {
 
         //récupération de la date du jour
        // SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
-        dateFacture = String.valueOf(java.time.LocalDate.now());
+        dateFacture = String.valueOf(LocalDate.now());
 
         //concaténation du numéro de facture et de la date du jour pour avoir le nom du fichier pdf de la facture
-        nomFacture = dateFacture + numFacture;
+        nomFacture = dateFacture + "-000" + numFacture +".pdf";
         System.out.println("Voici le nom de la facture : "+nomFacture);
 
 
@@ -105,24 +103,48 @@ public class Facture {
 
         var bold = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
 
-        var paragraph = new Paragraph("Informations Client");
+        var paragraphInfoClient = new Paragraph("Informations Client");
+        var paragraphInfoFactureur = new Paragraph("Informations du prestataire");
+
+
+        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(prestataire.getFirstName());
+        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(prestataire.getLastName());
+        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(prestataire.getAdress());
+        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(prestataire.getMail());
+        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(prestataire.getSiret());
+        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(prestataire.getWeb());
+
+
+
+        paragraphInfoClient.add(Chunk.NEWLINE);
+        paragraphInfoClient.add(client.getFirstName());
+        paragraphInfoClient.add(Chunk.NEWLINE);
+        paragraphInfoClient.add(client.getLastName());
+        paragraphInfoClient.add(Chunk.NEWLINE);
+        paragraphInfoClient.add(client.getAdress());
+        paragraphInfoClient.add(Chunk.NEWLINE);
+
 
         var table = new PdfPTable(1);
 
         var date = new PdfDate();
+        var azdad = new PdfRectangle(10,10,15,15);
+        var paraRect = new Paragraph();
 
-        //SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+        paraRect.add(String.valueOf(Chunk.CREATIONDATE));
 
-        //var para = new PdfRectangle();
+        //Création de la ligne séparatrice
+        LineSeparator ls = new LineSeparator();
+        ls.setLineColor(LIGHT_GRAY);
 
-        paragraph.add(String.valueOf(date));
-        paragraph.add(Chunk.NEWLINE);
-        paragraph.add(client.getFirstName());
-        paragraph.add(Chunk.NEWLINE);
-        paragraph.add(client.getLastName());
-        paragraph.add(Chunk.NEWLINE);
-        paragraph.add(client.getAdress());
-        paragraph.add(Chunk.NEWLINE);
+        // instantiating a PdfCanvas object
+        //PdfCanvas canvas = new PdfCanvas(pdfPage);
 
 /*        public static void writeJsonSimpleDemo(String filename) throws Exception {
             JSONObject sampleObject = new JSONObject();
@@ -150,9 +172,24 @@ public class Facture {
                 });*/
 
 
-        paragraph.add(table);
-        doc.add(paragraph);
+
+        paragraphInfoClient.add(table);
+
+
+        //J'ajoute tous les éléments au doc
+        doc.add(paragraphInfoClient);
+
+        doc.add(new Chunk(ls));//Ligne séparatrice
+
+        doc.add(paragraphInfoClient);
+
+        doc.add(new Chunk(ls));//Ligne séparatrice
+        doc.add(paraRect);
+
+        doc.add(new Chunk(ls));//Ligne séparatrice
         doc.add(informationLegales);
+        doc.addCreationDate();
+
         doc.close();
         System.out.println("génération du PDF effectué");
 

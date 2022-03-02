@@ -2,13 +2,13 @@ package com.modulefacturation.facturejfx.client;
 
 import java.util.ArrayList;
 
-public class Presta {
+public class Prestation {
 
     public String presta;
     public int quantité;
     public int tarif;
     public int total = quantité * tarif;
-    private ArrayList<Presta> liste = new ArrayList<Presta>();
+    private ArrayList<Prestation> liste = new ArrayList<Prestation>();
 
 
 
@@ -27,7 +27,7 @@ public class Presta {
 
 
     // Ajouter la presta à la liste des presta à facturer
-    public void addToListe(Presta prestation){
+    public void addToListe(Prestation prestation){
         liste.add(prestation);
     }
 
@@ -35,7 +35,7 @@ public class Presta {
 
 
     public void checkCreation(){
-        System.out.println("Objet Presta Créé");
+        System.out.println("Objet Prestation Créé");
     }
 
 

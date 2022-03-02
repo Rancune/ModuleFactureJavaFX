@@ -2,7 +2,8 @@ package com.modulefacturation.facturejfx;
 
 import com.itextpdf.text.DocumentException;
 import com.modulefacturation.facturejfx.client.Client;
-import com.modulefacturation.facturejfx.client.Presta;
+import com.modulefacturation.facturejfx.client.Prestataire;
+import com.modulefacturation.facturejfx.client.Prestation;
 import com.modulefacturation.facturejfx.facture.Facture;
 import com.modulefacturation.facturejfx.mail.Mail;
 import javafx.event.ActionEvent;
@@ -43,7 +44,7 @@ public class FactureController {
     private TextFlow alertDanger;
 
 
-    private ArrayList<Presta> listepresta = new ArrayList<Presta>();
+    private ArrayList<Prestation> listepresta = new ArrayList<Prestation>();
 
 
 
@@ -58,17 +59,26 @@ public class FactureController {
         alertSuccess.setVisible(true);
         alertDanger.setVisible(false);
 
+        //récupération des infos du prestataire
+       Prestataire prestataire = new Prestataire();
+   /*   prestataire.setFirstName();
+        prestataire.setLastName();
+        prestataire.setAdress();
+        prestataire.setTel();
+        prestataire.setMail();
+        prestataire.setWeb();*/
+
+
         //récupération des infos client
         Client client = new Client();
         client.setFirstName(nom.getText());
-        System.out.println(nom.getText());
         client.setLastName(prenom.getText());
         client.setAdress(adresse.getText());
         client.checkCreation();
 
 
         //récupération des infos presta
-        Presta prestas = new Presta();
+        Prestation prestas = new Prestation();
         prestas.setPresta(prestation.getText());
         prestas.setQuantité(Integer.parseInt(quantity.getText()));
         prestas.setTarif(Integer.parseInt(prix.getText()));
@@ -79,7 +89,7 @@ public class FactureController {
         //création du pdf avec les infos client et presta
         Facture facture = new Facture();
         try {
-            facture.generationPdf(client, listepresta);
+            facture.generationPdf(prestataire, client, listepresta);
 
         } catch (DocumentException ex) {
             ex.printStackTrace();
