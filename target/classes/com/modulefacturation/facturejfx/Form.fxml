@@ -93,28 +93,33 @@
         <TextField fx:id="adressePresta" GridPane.columnIndex="1" GridPane.rowIndex="3"  promptText="Adresse" styleClass="bg-default" />
 
 
-        <Label GridPane.columnIndex="0" GridPane.rowIndex="4" text="Mail"/>
-        <TextField fx:id="mailPresta" GridPane.columnIndex="1" GridPane.rowIndex="4"  promptText="Mail" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="4" text="Numéro de Siret" textAlignment="LEFT" />
+        <TextField fx:id="siretPresta" GridPane.columnIndex="1" GridPane.rowIndex="4"  promptText="Numero de SIRET" styleClass="bg-default" />
 
 
-        <Label GridPane.columnIndex="0" GridPane.rowIndex="5" text="Numéro de Siret" textAlignment="LEFT" />
-        <TextField fx:id="siretPresta" GridPane.columnIndex="1" GridPane.rowIndex="5"  promptText="Numero de SIRET" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="5" text="Site Web"/>
+        <TextField fx:id="webPresta" GridPane.columnIndex="1" GridPane.rowIndex="5"  promptText="Adresse du site web" styleClass="bg-default" />
 
 
-        <Label GridPane.columnIndex="0" GridPane.rowIndex="6" text="Site Web"/>
-        <TextField fx:id="webPresta" GridPane.columnIndex="1" GridPane.rowIndex="6"  promptText="Adresse du site web" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="6" text="Téléphone"/>
+        <TextField fx:id="telPresta" GridPane.columnIndex="1" GridPane.rowIndex="6"  promptText="Numéro de téléphone" styleClass="bg-default" />
 
 
-        <Label GridPane.columnIndex="0" GridPane.rowIndex="7" text="Téléphone"/>
-        <TextField fx:id="telPresta" GridPane.columnIndex="1" GridPane.rowIndex="7"  promptText="Numéro de téléphone" styleClass="bg-default" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="7" text="Mail"/>
+        <TextField fx:id="mailPresta" GridPane.columnIndex="1" GridPane.rowIndex="7"  promptText="Mail" styleClass="bg-default" />
 
-        <TextFlow fx:id="alertSuccessPresta" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="8" text="Mot de passe email"/>
+        <TextField fx:id="pwPresta" GridPane.columnIndex="1" GridPane.rowIndex="8"  promptText="Mot de passe" styleClass="bg-default" />
+
+
+        <TextFlow fx:id="alertSuccessPresta" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-success">
             <Text text="Bouyah!" styleClass="strong"/>
             <Text text=" La facture a été généré en pdf et envoyé par mail."/>
         </TextFlow>
 
-        <TextFlow fx:id="alertDangerPresta" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.hgrow="ALWAYS" visible="false"
+        <TextFlow fx:id="alertDangerPresta" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-danger">
             <Text text="CHIMICHANGA!" styleClass="strong"/>
             <Text text=" Did someone say CHIMICHANGA ? "/>

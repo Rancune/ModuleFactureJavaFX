@@ -12,6 +12,7 @@ module com.modulefacturation.facturejfx {
     requires itextpdf;
     requires javax.mail;
     requires java.activation;
+    requires json.simple;
 
     opens com.modulefacturation.facturejfx to javafx.fxml;
     exports com.modulefacturation.facturejfx;

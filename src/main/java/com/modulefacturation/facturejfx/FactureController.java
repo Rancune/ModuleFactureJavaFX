@@ -24,6 +24,8 @@ public class FactureController {
     @FXML
     public TextFlow alertSuccess;
     @FXML
+    public TextFlow alertSuccessPresta;
+    @FXML
     public TextField nom;
     @FXML
     public TextField prenom;
@@ -43,6 +45,8 @@ public class FactureController {
     private Label titre;
     @FXML
     private TextFlow alertDanger;
+    @FXML
+    private TextFlow alertDangerPresta;
     @FXML
     private GridPane vueClient;
     @FXML
@@ -162,7 +166,8 @@ public class FactureController {
                 telPresta.getText()
                 );
         System.out.println("Informations du prestataire Enregistrées");
-
+        alertSuccessPresta.setVisible(true);
+        alertDangerPresta.setVisible(false);
     }
 
     public void retourClient(ActionEvent actionEvent) {

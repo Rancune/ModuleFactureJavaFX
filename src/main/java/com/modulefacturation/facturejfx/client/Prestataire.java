@@ -1,18 +1,66 @@
 package com.modulefacturation.facturejfx.client;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 public class Prestataire {
 
     private String firstName;
     private String lastName;
     private String adress;
     private String mail;
+    private String motDePasseMail;
     private String tel;
     private String siret;
     private String web;
 
 
+
+
+    public void writeJson(){
+
+        //Informations Prestataire
+        JSONObject prestataireDetails = new JSONObject();
+        prestataireDetails.put("firstName",  this.firstName);
+        prestataireDetails.put("lastName", this.lastName);
+        prestataireDetails.put("adress", this.adress);
+        prestataireDetails.put("mail", this.mail);
+        prestataireDetails.put("motDePasseMail", this.motDePasseMail);
+        prestataireDetails.put("tel", this.tel);
+        prestataireDetails.put("siret", this.siret);
+        prestataireDetails.put("web", this.web);
+
+        JSONObject prestataireObject = new JSONObject();
+        prestataireObject.put("prestataire", prestataireDetails);
+
+
+        //Add employees to list
+        JSONArray factureListInfo = new JSONArray();
+        factureListInfo.add(prestataireDetails);
+        //employeeList.add(employeeObject2);
+
+
+        //Write JSON file
+        try (FileWriter file = new FileWriter("prestataire.json")) {
+            //We can write any JSONArray or JSONObject instance to the file
+            file.write(prestataireObject.toJSONString());
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
     public Prestataire() {
     }
+
+
 
 
     public Prestataire(String firstName, String lastName, String adress, String mail, String tel, String siret, String web) {
@@ -80,5 +128,13 @@ public class Prestataire {
 
     public void setWeb(String web) {
         this.web = web;
+    }
+
+    public String getMotDePasseMail() {
+        return motDePasseMail;
+    }
+
+    public void setMotDePasseMail(String motDePasseMail) {
+        this.motDePasseMail = motDePasseMail;
     }
 }
