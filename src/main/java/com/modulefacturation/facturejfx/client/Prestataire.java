@@ -36,8 +36,9 @@ public class Prestataire {
         prestataireDetails.put("siret", this.siret);
         prestataireDetails.put("web", this.web);
 
-        JSONObject prestataireObject = new JSONObject();
-        prestataireObject.put("prestataire", prestataireDetails);
+        //JSONObject prestataireObject = new JSONObject();
+       // prestataireObject.put("prestataire", prestataireDetails);
+
 
 
         //Add employees to list
@@ -49,7 +50,7 @@ public class Prestataire {
         //Write JSON file
         try (FileWriter file = new FileWriter("prestataire.json")) {
             //We can write any JSONArray or JSONObject instance to the file
-            file.write(prestataireObject.toJSONString());
+            file.write(prestataireDetails.toJSONString());
             System.out.println("Info enregistrées dans le JSON");
             file.flush();
 

@@ -10,9 +10,11 @@ module com.modulefacturation.facturejfx {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires itextpdf;
-    requires javax.mail;
+
     requires java.activation;
     requires json.simple;
+    requires java.mail;
+
 
     opens com.modulefacturation.facturejfx to javafx.fxml;
     exports com.modulefacturation.facturejfx;

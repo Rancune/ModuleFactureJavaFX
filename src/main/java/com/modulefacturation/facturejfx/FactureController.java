@@ -185,6 +185,7 @@ public class FactureController {
 
         //Get employee object within list
         JSONObject prestataireObject = (JSONObject) Prestataire.readJson();
+        System.out.println(prestataireObject);
 
         //Get employee first name
         String firstName = (String) prestataireObject.get("firstName");
@@ -192,10 +193,10 @@ public class FactureController {
 
         //Get employee last name
         String lastName = (String) prestataireObject.get("lastName");
-        System.out.println(lastName);
+        System.out.println( prestataireObject.get("lastName"));
 
         //Get employee website name
-        String website = (String) prestataireObject.get("website");
+        String website = (String) prestataireObject.get("web");
         System.out.println(website);
 
         nomPresta.setText((String) prestataireObject.get("lastName"));
