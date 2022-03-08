@@ -116,7 +116,7 @@
         <TextFlow fx:id="alertSuccessPresta" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-success">
             <Text text="Bouyah!" styleClass="strong"/>
-            <Text text=" La facture a été généré en pdf et envoyé par mail."/>
+            <Text text=" Les informations du prestataire sont sauvegardées."/>
         </TextFlow>
 
         <TextFlow fx:id="alertDangerPresta" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.hgrow="ALWAYS" visible="false"

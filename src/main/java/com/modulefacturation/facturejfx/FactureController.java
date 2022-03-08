@@ -13,6 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextFlow;
+import org.json.simple.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class FactureController {
     private TextField adressePresta;
     @FXML
     private TextField mailPresta;
+    @FXML
+    private TextField pwPresta;
     @FXML
     private TextField siretPresta;
     @FXML
@@ -152,24 +155,61 @@ public class FactureController {
         vueClient.setDisable(true);
         vuePrestataire.setDisable(false);
         vuePrestataire.setVisible(true);
+        initPrestataire();
 
     }
 
+    @FXML
     public void sauvegardeInfoPrestataire(ActionEvent actionEvent) {
         Prestataire prestataire = new Prestataire(
                 nomPresta.getText(),
                 prenomPresta.getText(),
                 adressePresta.getText(),
                 mailPresta.getText(),
+                pwPresta.getText(),
+                telPresta.getText(),
                 siretPresta.getText(),
-                webPresta.getText(),
-                telPresta.getText()
+                webPresta.getText()
                 );
+
+        prestataire.writeJson();
         System.out.println("Informations du prestataire Enregistrées");
         alertSuccessPresta.setVisible(true);
         alertDangerPresta.setVisible(false);
     }
 
+
+
+    public void initPrestataire(){
+
+
+        //Get employee object within list
+        JSONObject prestataireObject = (JSONObject) Prestataire.readJson();
+
+        //Get employee first name
+        String firstName = (String) prestataireObject.get("firstName");
+        System.out.println(firstName);
+
+        //Get employee last name
+        String lastName = (String) prestataireObject.get("lastName");
+        System.out.println(lastName);
+
+        //Get employee website name
+        String website = (String) prestataireObject.get("website");
+        System.out.println(website);
+
+        nomPresta.setText((String) prestataireObject.get("lastName"));
+        prenomPresta.setText((String) prestataireObject.get("firstName"));
+        adressePresta.setText((String) prestataireObject.get("adress"));
+        mailPresta.setText((String) prestataireObject.get("mail"));
+        pwPresta.setText((String) prestataireObject.get("motDePasseMail"));
+        telPresta.setText((String) prestataireObject.get("tel"));
+        siretPresta.setText((String) prestataireObject.get("siret"));
+        webPresta.setText((String) prestataireObject.get("web"));
+
+
+    }
+    @FXML
     public void retourClient(ActionEvent actionEvent) {
         vueClient.setVisible(true);
         vueClient.setDisable(false);

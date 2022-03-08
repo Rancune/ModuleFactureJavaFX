@@ -16,6 +16,7 @@ public class Main extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Test Form Facture");
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+        //appel de la methode readjson de prestataire via factureController
         stage.setScene(scene);
         stage.show();
     }

@@ -1,9 +1,13 @@
 package com.modulefacturation.facturejfx.client;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Prestataire {
 
@@ -18,7 +22,7 @@ public class Prestataire {
 
 
 
-
+    //Sauvegarde des infos dans un JSON
     public void writeJson(){
 
         //Informations Prestataire
@@ -46,6 +50,7 @@ public class Prestataire {
         try (FileWriter file = new FileWriter("prestataire.json")) {
             //We can write any JSONArray or JSONObject instance to the file
             file.write(prestataireObject.toJSONString());
+            System.out.println("Info enregistrées dans le JSON");
             file.flush();
 
         } catch (IOException e) {
@@ -54,7 +59,52 @@ public class Prestataire {
     }
 
 
+    //Lecture des infos du JSON si existant pour populer les champs infos du presta
+    public static Object readJson(){
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
 
+        try (FileReader reader = new FileReader("prestataire.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+
+           // JSONArray prestataireInfo = (JSONArray) obj;
+            //System.out.println(prestataireInfo);
+
+            //Iterate over prestataire array
+            //prestataireInfo.forEach( emp -> parsePrestataireObject( (JSONObject) emp ) );
+            System.out.println("parse du json effectué");
+            return obj;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private static void parsePrestataireObject(JSONObject prestataire) {
+
+        //Get employee object within list
+        JSONObject prestataireObject = (JSONObject) prestataire.get("employee");
+
+        //Get employee first name
+        String firstName = (String) prestataireObject.get("firstName");
+        System.out.println(firstName);
+
+        //Get employee last name
+        String lastName = (String) prestataireObject.get("lastName");
+        System.out.println(lastName);
+
+        //Get employee website name
+        String website = (String) prestataireObject.get("website");
+        System.out.println(website);
+    }
 
 
     public Prestataire() {
@@ -63,11 +113,12 @@ public class Prestataire {
 
 
 
-    public Prestataire(String firstName, String lastName, String adress, String mail, String tel, String siret, String web) {
+    public Prestataire(String lastName, String firstName, String adress, String mail, String password, String tel, String siret, String web) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.adress = adress;
         this.mail = mail;
+        this.motDePasseMail = password;
         this.tel = tel;
         this.siret = siret;
         this.web = web;
