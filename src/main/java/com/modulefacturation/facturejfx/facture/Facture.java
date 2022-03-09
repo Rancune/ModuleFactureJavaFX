@@ -177,7 +177,7 @@ public class Facture {
 
 
         //J'ajoute tous les éléments au doc
-        doc.add(paragraphInfoClient);
+        doc.add(paragraphInfoFactureur);
 
         doc.add(new Chunk(ls));//Ligne séparatrice
 

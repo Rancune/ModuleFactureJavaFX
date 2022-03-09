@@ -76,25 +76,14 @@ public class FactureController {
 
 
 
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
-
     @FXML
     protected void generationFacture() {
         alertSuccess.setVisible(true);
         alertDanger.setVisible(false);
 
         //récupération des infos du prestataire
-       Prestataire prestataire = new Prestataire();
-   /*   prestataire.setFirstName();
-        prestataire.setLastName();
-        prestataire.setAdress();
-        prestataire.setTel();
-        prestataire.setMail();
-        prestataire.setWeb();*/
+        Prestataire prestataire = new Prestataire();
+        prestataire = initPrestataire();
 
 
         //récupération des infos client
@@ -180,24 +169,13 @@ public class FactureController {
 
 
 
-    public void initPrestataire(){
+    public Prestataire initPrestataire(){
 
 
-        //Get employee object within list
+        //Get Prestataire object within list
         JSONObject prestataireObject = (JSONObject) Prestataire.readJson();
         System.out.println(prestataireObject);
 
-        //Get employee first name
-        String firstName = (String) prestataireObject.get("firstName");
-        System.out.println(firstName);
-
-        //Get employee last name
-        String lastName = (String) prestataireObject.get("lastName");
-        System.out.println( prestataireObject.get("lastName"));
-
-        //Get employee website name
-        String website = (String) prestataireObject.get("web");
-        System.out.println(website);
 
         nomPresta.setText((String) prestataireObject.get("lastName"));
         prenomPresta.setText((String) prestataireObject.get("firstName"));
@@ -208,8 +186,32 @@ public class FactureController {
         siretPresta.setText((String) prestataireObject.get("siret"));
         webPresta.setText((String) prestataireObject.get("web"));
 
+        Prestataire prestataire = new Prestataire(
+                (String) prestataireObject.get("lastName"),
+                (String) prestataireObject.get("firstName"),
+                (String) prestataireObject.get("adress"),
+                (String) prestataireObject.get("mail"),
+                (String) prestataireObject.get("motDePasseMail"),
+                (String) prestataireObject.get("tel"),
+                (String) prestataireObject.get("siret"),
+                (String) prestataireObject.get("web"));
+
+
+        return prestataire;
 
     }
+
+
+    public Object recupPrestataire(){
+
+        Object prestataire = Prestataire.readJson();
+        System.out.println(prestataire);
+
+        return prestataire;
+    }
+
+
+
     @FXML
     public void retourClient(ActionEvent actionEvent) {
         vueClient.setVisible(true);
