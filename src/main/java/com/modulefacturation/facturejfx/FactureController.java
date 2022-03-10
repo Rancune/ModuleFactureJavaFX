@@ -1,6 +1,5 @@
 package com.modulefacturation.facturejfx;
 
-import com.itextpdf.text.DocumentException;
 import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
 import com.modulefacturation.facturejfx.client.Prestation;
@@ -15,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextFlow;
 import org.json.simple.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 
@@ -108,9 +106,7 @@ public class FactureController {
         try {
             facture.generationPdf(prestataire, client, listepresta);
 
-        } catch (DocumentException ex) {
-            ex.printStackTrace();
-        } catch (FileNotFoundException ex) {
+        } catch (Exception  ex) {
             ex.printStackTrace();
         }
 

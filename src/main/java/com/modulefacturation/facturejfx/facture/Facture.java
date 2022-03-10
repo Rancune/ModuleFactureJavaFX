@@ -1,26 +1,29 @@
 package com.modulefacturation.facturejfx.facture;
 
-import com.itextpdf.text.pdf.*;
-import com.itextpdf.text.pdf.draw.LineSeparator;
+
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Text;
 import com.modulefacturation.facturejfx.client.Client;
-import com.modulefacturation.facturejfx.client.Prestation;
 import com.modulefacturation.facturejfx.client.Prestataire;
-
-
-import com.itextpdf.text.*;
-
+import com.modulefacturation.facturejfx.client.Prestation;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static com.itextpdf.text.BaseColor.LIGHT_GRAY;
+import static com.itextpdf.io.font.constants.StandardFonts.HELVETICA;
 
 public class Facture {
 
-/*    //Info obligatoire
+/*  //Info obligatoire
     //Date de la facture
     //Numéro de la facture
     //date de la vente ou de la presta de service
@@ -73,9 +76,9 @@ public class Facture {
 
 
     // ICI on crée le pdf de la facture. Buckle Up !  that's a wild ride.
-    public static void generationPdf(Prestataire prestataire, Client client, ArrayList<Prestation> liste) throws DocumentException, FileNotFoundException {
+    public static void generationPdf(Prestataire prestataire, Client client, ArrayList<Prestation> liste) throws Exception , FileNotFoundException {
 
-        Document doc = new Document();
+
 
         //Le numéro de la facture doit être chronologique et sans rupture ... Fuck.
 
@@ -97,98 +100,136 @@ public class Facture {
         System.out.println("Voici le nom de la facture : "+nomFacture);
 
 
-
+/*        Document document = new Document(pdfDoc);
+        Document doc = new Document();
         PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(nomFacture));
-        doc.open();
+        doc.open();*/
 
-        var bold = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+       // var bold = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
 
-        var paragraphInfoClient = new Paragraph("Informations Client");
+
+
+
+        //création du document PDF
+        String dest = "C:/- Dev -/Github dev/ModuleFactureJavaFX/"+nomFacture;// Creating a PdfWriter
+        PdfWriter writer = new PdfWriter(dest);
+
+        PdfDocument pdfDoc = new PdfDocument(writer);// Creating a PdfDocument
+
+        // Creating a new page
+        PdfPage pdfPage = pdfDoc.addNewPage();
+        //pdfDoc.addNewPage();// Adding a new page
+
+        Document doc = new Document(pdfDoc);// Creating a Document
+
+
+        PdfFont font = PdfFontFactory.createFont(HELVETICA);
+
+
+
+        //création du format général du document
+
+
+
+
+
+
+        //création du paragraphe du logo
+        var logo = new Paragraph("Ici mon logo");
+
+
+        //création du paragraphe Titre facture avec date
+        var facture = new Paragraph("Numéro de facture");
+
+
+        //création du paragraphe info du prestataire
         var paragraphInfoFactureur = new Paragraph("Informations du prestataire");
-
-
-        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getFirstName());
-        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getLastName());
-        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getAdress());
-        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getMail());
-        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getSiret());
-        paragraphInfoFactureur.add(Chunk.NEWLINE);
+        paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getWeb());
 
 
-
-        paragraphInfoClient.add(Chunk.NEWLINE);
+        //création du paragraphe info client
+        var paragraphInfoClient = new Paragraph("Informations Client");
+        paragraphInfoClient.add(new Text("\n"));
         paragraphInfoClient.add(client.getFirstName());
-        paragraphInfoClient.add(Chunk.NEWLINE);
+        paragraphInfoClient.add(new Text("\n"));
         paragraphInfoClient.add(client.getLastName());
-        paragraphInfoClient.add(Chunk.NEWLINE);
+        paragraphInfoClient.add(new Text("\n"));
         paragraphInfoClient.add(client.getAdress());
-        paragraphInfoClient.add(Chunk.NEWLINE);
+        paragraphInfoClient.add(new Text("\n"));
 
 
-        var table = new PdfPTable(1);
+        //création du paragraphe des prestations avec quantité et prix
+        var presta = new Paragraph("Prestation");
 
-        var date = new PdfDate();
-        var azdad = new PdfRectangle(10,10,15,15);
-        var paraRect = new Paragraph();
 
-        paraRect.add(String.valueOf(Chunk.CREATIONDATE));
 
-        //Création de la ligne séparatrice
-        LineSeparator ls = new LineSeparator();
-        ls.setLineColor(LIGHT_GRAY);
-
-        // instantiating a PdfCanvas object
-        //PdfCanvas canvas = new PdfCanvas(pdfPage);
-
-/*        public static void writeJsonSimpleDemo(String filename) throws Exception {
-            JSONObject sampleObject = new JSONObject();
-            sampleObject.put("name", "Stackabuser");
-            sampleObject.put("age", 35);
-
-            JSONArray messages = new JSONArray();
-            messages.add("Hey!");
-            messages.add("What's up?!");
-
-            sampleObject.put("messages", messages);
-            Files.write(Paths.get(filename), sampleObject.toJSONString().getBytes());
-        }*/
+        //Paragraphe du prix total
+        var prix = new Paragraph("Prix Total");
 
 
         //Paragraphe d'info légales
         var informationLegales = new Paragraph("Pagraphes d'information légales a propos de la TVA toussa.");
-
-/*        Stream.of("Chrono Unit", "Duration").forEach(table::addCell);
-
-        Arrays.stream(ChronoUnit.values())
-                .forEach(val -> {
-                    table.addCell(val.toString());
-                    table.addCell(val.getDuration().toString());
-                });*/
+        var piedDePage = new Paragraph("Information de pieds de page");
 
 
-
-        paragraphInfoClient.add(table);
+        //Création de la ligne séparatrice
+        // Creating a PdfCanvas object
+        PdfCanvas canvas = new PdfCanvas(pdfPage);
+        // Initial point of the line
+        canvas.moveTo(100, 300);
+        // Drawing the line
+        canvas.lineTo(500, 300);
+        canvas.closePathStroke();
 
 
         //J'ajoute tous les éléments au doc
+        //doc.add(table);
+
+       // doc.add(new Chunk(ls));//Ligne séparatrice
+
+        doc.add(logo);
+
+       // doc.add(new Chunk(ls));//Ligne séparatrice
+
+        doc.add(facture);
+
+        //doc.add(new Chunk(ls));//Ligne séparatrice
+
         doc.add(paragraphInfoFactureur);
 
-        doc.add(new Chunk(ls));//Ligne séparatrice
-
+       // doc.add(new Chunk(ls));//Ligne séparatrice
+//
         doc.add(paragraphInfoClient);
 
-        doc.add(new Chunk(ls));//Ligne séparatrice
-        doc.add(paraRect);
+       // doc.add(new Chunk(ls));//Ligne séparatrice
 
-        doc.add(new Chunk(ls));//Ligne séparatrice
+        doc.add(presta);
+
+        //.add(new Chunk(ls));//Ligne séparatrice
+
         doc.add(informationLegales);
-        doc.addCreationDate();
+
+       // doc.add(new Chunk(ls));//Ligne séparatrice
+
+        doc.add(prix);
+
+       // doc.add(new Chunk(ls));//Ligne séparatrice
+
+        doc.add(piedDePage);
+
+
+       // doc.addCreationDate();
 
         doc.close();
         System.out.println("génération du PDF effectué");
