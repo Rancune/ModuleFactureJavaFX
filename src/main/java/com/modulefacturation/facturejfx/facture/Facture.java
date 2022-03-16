@@ -111,7 +111,7 @@ public class Facture {
 
 
         //création du document PDF
-        String dest = "C:/- Dev -/Github dev/ModuleFactureJavaFX/"+nomFacture;// Creating a PdfWriter
+        String dest = "C:/Users/33011-31-19/Documents/Dev/Git/ModuleFactureJavaFX/"+nomFacture;// Creating a PdfWriter
         PdfWriter writer = new PdfWriter(dest);
 
         PdfDocument pdfDoc = new PdfDocument(writer);// Creating a PdfDocument

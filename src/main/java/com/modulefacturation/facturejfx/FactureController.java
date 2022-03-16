@@ -69,7 +69,7 @@ public class FactureController {
 
 
 
-
+    private Boolean active;
     private ArrayList<Prestation> listepresta = new ArrayList<Prestation>();
 
 
@@ -214,5 +214,14 @@ public class FactureController {
         vueClient.setDisable(false);
         vuePrestataire.setDisable(true);
         vuePrestataire.setVisible(false);
+    }
+
+    public void AjoutPrestation(ActionEvent actionEvent) {
+
+    }
+
+    public void options(ActionEvent actionEvent) {
+        active = true;
+
     }
 }
