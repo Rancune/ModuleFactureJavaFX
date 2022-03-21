@@ -71,6 +71,8 @@ public class FactureController {
     private Button btnOption;
     @FXML
     private Button btnClientInfos;
+    @FXML
+    private TextFlow alertInfo;
 
     private Boolean active;
     private ArrayList<Prestation> listepresta = new ArrayList<Prestation>();
@@ -238,7 +240,9 @@ public class FactureController {
 
     @FXML
     public void AjoutPrestation(ActionEvent actionEvent) {
-
+        alertInfo.setVisible(true);
+        alertSuccess.setVisible(false);
+        alertDanger.setVisible(false);
     }
 
 

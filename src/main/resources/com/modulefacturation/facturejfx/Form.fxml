@@ -68,13 +68,13 @@
 
         <TextFlow fx:id="alertSuccess" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-dismissible, alert-success">
-            <Text text="Bouyah!" styleClass="strong"/>
+            <Text text="OORAH!" styleClass="strong"/>
             <Text text=" La facture a été généré en pdf et envoyé par mail."/>
         </TextFlow>
 
         <TextFlow fx:id="alertInfo" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-dismissible, alert-info">
-            <Text text="Bouyah!" styleClass="strong"/>
+            <Text text="BOUYAH!" styleClass="strong"/>
             <Text text=" La prestation a été ajoutée."/>
         </TextFlow>
 
