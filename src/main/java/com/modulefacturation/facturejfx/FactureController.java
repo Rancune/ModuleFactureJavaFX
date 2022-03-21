@@ -7,6 +7,7 @@ import com.modulefacturation.facturejfx.facture.Facture;
 import com.modulefacturation.facturejfx.mail.Mail;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -66,8 +67,10 @@ public class FactureController {
     private TextField webPresta;
     @FXML
     private TextField telPresta;
-
-
+    @FXML
+    private Button btnOption;
+    @FXML
+    private Button btnClientInfos;
 
     private Boolean active;
     private ArrayList<Prestation> listepresta = new ArrayList<Prestation>();
@@ -214,14 +217,29 @@ public class FactureController {
         vueClient.setDisable(false);
         vuePrestataire.setDisable(true);
         vuePrestataire.setVisible(false);
+        btnClientInfos.setDisable(true);
+        btnClientInfos.setVisible(false);
+        btnOption.setDisable(false);
+        btnOption.setVisible(true);
+
     }
 
+    @FXML
+    public void options(ActionEvent actionEvent) {
+        vueClient.setVisible(false);
+        vueClient.setDisable(true);
+        vuePrestataire.setDisable(false);
+        vuePrestataire.setVisible(true);
+        btnClientInfos.setDisable(false);
+        btnClientInfos.setVisible(true);
+        btnOption.setDisable(true);
+        btnOption.setVisible(false);
+    }
+
+    @FXML
     public void AjoutPrestation(ActionEvent actionEvent) {
 
     }
 
-    public void options(ActionEvent actionEvent) {
-        active = true;
 
-    }
 }

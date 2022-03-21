@@ -20,8 +20,12 @@
     <Label fx:id="titre" GridPane.columnIndex="0" GridPane.rowIndex="0" text="Facture" styleClass="h1, b" textAlignment="CENTER"
            GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.fillWidth="ALWAYS"  GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
 
-    <Button onAction="#retourPrestataire" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="btn, btn-lg, btn-default"
+    <Button fx:id="btnOption"  onAction="#options" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="btn, btn-lg, btn-default"
             text="Options" GridPane.halignment="RIGHT"/>
+
+    <Button fx:id="btnClientInfos" onAction="#retourClient" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="btn, btn-lg, btn-default"
+            text="Informations client" GridPane.halignment="LEFT" visible="false" disable="true"/>
+
 
 
 
@@ -62,13 +66,13 @@
 
 
 
-        <TextFlow fx:id="alertSuccess" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.hgrow="ALWAYS" visible="false"
+        <TextFlow fx:id="alertSuccess" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-dismissible, alert-success">
             <Text text="Bouyah!" styleClass="strong"/>
             <Text text=" La facture a été généré en pdf et envoyé par mail."/>
         </TextFlow>
 
-        <TextFlow fx:id="alertInfo" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.hgrow="ALWAYS" visible="false"
+        <TextFlow fx:id="alertInfo" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-dismissible, alert-info">
             <Text text="Bouyah!" styleClass="strong"/>
             <Text text=" La prestation a été ajoutée."/>
@@ -137,24 +141,23 @@
         <TextField fx:id="pwPresta" GridPane.columnIndex="1" GridPane.rowIndex="8"  promptText="Mot de passe" styleClass="bg-default" />
 
 
-        <TextFlow fx:id="alertSuccessPresta" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.hgrow="ALWAYS" visible="false"
+        <TextFlow fx:id="alertSuccessPresta" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-success">
             <Text text="Bouyah!" styleClass="strong"/>
             <Text text=" Les informations du prestataire sont sauvegardées."/>
         </TextFlow>
 
-        <TextFlow fx:id="alertDangerPresta" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.hgrow="ALWAYS" visible="false"
+        <TextFlow fx:id="alertDangerPresta" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-danger">
             <Text text="CHIMICHANGA!" styleClass="strong"/>
             <Text text=" Did someone say CHIMICHANGA ? "/>
         </TextFlow>
 
-        <Button onAction="#sauvegardeInfoPrestataire" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-success" text="Sauvegarder" GridPane.halignment="LEFT">        <tooltip>
+        <Button onAction="#sauvegardeInfoPrestataire" GridPane.columnIndex="1" GridPane.rowIndex="12" styleClass="btn, btn-lg, btn-success" text="Sauvegarder" GridPane.halignment="LEFT">        <tooltip>
             <Tooltip styleClass="tooltip-success" text="Enregistre les informations prestataire"/>
         </tooltip>
         </Button>
 
-        <Button onAction="#retourClient" GridPane.columnIndex="1" GridPane.rowIndex="10" styleClass="btn, btn-lg, btn-default" text="Informations client" GridPane.halignment="CENTER"/>
 
 
 
