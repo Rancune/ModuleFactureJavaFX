@@ -8,8 +8,12 @@ import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Text;
+import com.itextpdf.layout.properties.TextAlignment;
 import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
 import com.modulefacturation.facturejfx.client.Prestation;
@@ -18,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import static com.itextpdf.io.font.constants.StandardFonts.HELVETICA;
 
@@ -92,7 +97,7 @@ public class Facture {
         }
 
         //récupération de la date du jour
-       // SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+        /*SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);*/
         dateFacture = String.valueOf(LocalDate.now());
 
         //concaténation du numéro de facture et de la date du jour pour avoir le nom du fichier pdf de la facture
@@ -113,37 +118,30 @@ public class Facture {
         //création du document PDF
         String dest = "C:/Users/33011-31-19/Documents/Dev/Git/ModuleFactureJavaFX/"+nomFacture;// Creating a PdfWriter
         PdfWriter writer = new PdfWriter(dest);
-
         PdfDocument pdfDoc = new PdfDocument(writer);// Creating a PdfDocument
 
+        
         // Creating a new page
         PdfPage pdfPage = pdfDoc.addNewPage();
-        //pdfDoc.addNewPage();// Adding a new page
-
         Document doc = new Document(pdfDoc);// Creating a Document
-
-
-        PdfFont font = PdfFontFactory.createFont(HELVETICA);
-
-
-
+        PdfFont font = PdfFontFactory.createFont(HELVETICA);//création de la font du document
+        
+        
         //création du format général du document
 
-
-
-
-
-
+        
         //création du paragraphe du logo
         var logo = new Paragraph("Ici mon logo");
+        //TODO ajouter l'import de l'image pour le logo
 
-
+        
         //création du paragraphe Titre facture avec date
         var facture = new Paragraph("Numéro de facture");
+        //TODO ajouter le numéro de facture et la date de la facture
 
-
+        
         //création du paragraphe info du prestataire
-        var paragraphInfoFactureur = new Paragraph("Informations du prestataire");
+        var paragraphInfoFactureur = new Paragraph("Emetteur de la facture :");
         paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getFirstName());
         paragraphInfoFactureur.add(new Text("\n"));
@@ -159,7 +157,7 @@ public class Facture {
 
 
         //création du paragraphe info client
-        var paragraphInfoClient = new Paragraph("Informations Client");
+        var paragraphInfoClient = new Paragraph("Client :");
         paragraphInfoClient.add(new Text("\n"));
         paragraphInfoClient.add(client.getFirstName());
         paragraphInfoClient.add(new Text("\n"));
@@ -174,8 +172,10 @@ public class Facture {
 
 
 
+
         //Paragraphe du prix total
         var prix = new Paragraph("Prix Total");
+
 
 
         //Paragraphe d'info légales
@@ -183,53 +183,50 @@ public class Facture {
         var piedDePage = new Paragraph("Information de pieds de page");
 
 
-        //Création de la ligne séparatrice
+/*      //Création de la ligne séparatrice
         // Creating a PdfCanvas object
         PdfCanvas canvas = new PdfCanvas(pdfPage);
         // Initial point of the line
         canvas.moveTo(100, 300);
         // Drawing the line
         canvas.lineTo(500, 300);
-        canvas.closePathStroke();
+        canvas.closePathStroke();*/
+
+
+        
+        //Création de tableau Infos
+        // Creating a table object
+        float [] dimensionsInfos = {500F, 500F};
+        Table tableInfos = new Table(dimensionsInfos);
+        tableInfos.setAutoLayout();
+        tableInfos.setBorder(Border.NO_BORDER);
+        // Adding cells to the table
+        tableInfos.addCell(new Cell().add(logo));
+        tableInfos.addCell(new Cell().add(facture));
+        tableInfos.addCell(new Cell().add(paragraphInfoFactureur));
+        tableInfos.addCell(new Cell().add(paragraphInfoClient));
+
+
+        //Création du tableau des prestations
+        float [] dimensionsPresta = {500F, 100F, 100F};
+        Table tablePresta = new Table(dimensionsPresta);
+
+        liste.stream().forEach((Consumer<? super Prestation>) tablePresta.addCell(new Cell().add()));
+
+
+
+
 
 
         //J'ajoute tous les éléments au doc
-        //doc.add(table);
-
-       // doc.add(new Chunk(ls));//Ligne séparatrice
-
-        doc.add(logo);
-
-       // doc.add(new Chunk(ls));//Ligne séparatrice
-
-        doc.add(facture);
-
-        //doc.add(new Chunk(ls));//Ligne séparatrice
-
-        doc.add(paragraphInfoFactureur);
-
-       // doc.add(new Chunk(ls));//Ligne séparatrice
-//
-        doc.add(paragraphInfoClient);
-
-       // doc.add(new Chunk(ls));//Ligne séparatrice
-
-        doc.add(presta);
-
-        //.add(new Chunk(ls));//Ligne séparatrice
-
-        doc.add(informationLegales);
-
-       // doc.add(new Chunk(ls));//Ligne séparatrice
+        doc.add(tableInfos);
+        doc.add(tablePresta);
 
         doc.add(prix);
 
-       // doc.add(new Chunk(ls));//Ligne séparatrice
 
+        doc.add(informationLegales);
         doc.add(piedDePage);
-
-
-       // doc.addCreationDate();
 
         doc.close();
         System.out.println("génération du PDF effectué");

@@ -98,10 +98,9 @@ public class FactureController {
 
 
         //récupération des infos presta
-        Prestation prestas = new Prestation();
-        prestas.setPresta(prestation.getText());
-        prestas.setQuantité(Integer.parseInt(quantity.getText()));
-        prestas.setTarif(Integer.parseInt(prix.getText()));
+        Prestation prestas = new Prestation(prestation.getText(), Integer.parseInt(quantity.getText()), Integer.parseInt(prix.getText()));
+
+
         // prestation.addToliste(prestation);
         prestas.checkCreation();
 
@@ -116,7 +115,8 @@ public class FactureController {
         }
 
 
-/*
+/* PAS MOYEN DE TESTER L'ENVOIE DE MAIL A L'AFPA LE PAREFEU BLOQUE
+
                 //Je vais créer un mail et l'envoyer
                 String path = null;
                 String envoyeur = null;
@@ -138,6 +138,14 @@ public class FactureController {
     public void wipeFacture(ActionEvent actionEvent) {
         alertDanger.setVisible(true);
         alertSuccess.setVisible(false);
+        nom.clear();
+        prenom.clear();
+        adresse.clear();
+        mail.clear();
+        quantity.clear();
+        prestation.clear();
+        prix.clear();
+
     }
 
     public void retourPrestataire(ActionEvent actionEvent) {
@@ -207,7 +215,6 @@ public class FactureController {
 
         Object prestataire = Prestataire.readJson();
         System.out.println(prestataire);
-
         return prestataire;
     }
 
@@ -243,6 +250,13 @@ public class FactureController {
         alertInfo.setVisible(true);
         alertSuccess.setVisible(false);
         alertDanger.setVisible(false);
+
+        //TODO gérer les erreurs quand les champs sont vides
+        Prestation prestas = new Prestation(prestation.getText(), Integer.parseInt(quantity.getText()), Integer.parseInt(prix.getText()));
+        prestas.addToListe(prestas);
+        prestation.clear();
+        prix.clear();
+        quantity.clear();
     }
 
 

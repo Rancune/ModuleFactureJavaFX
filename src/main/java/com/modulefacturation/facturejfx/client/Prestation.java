@@ -10,7 +10,11 @@ public class Prestation {
     public int total = quantité * tarif;
     private ArrayList<Prestation> liste = new ArrayList<Prestation>();
 
-
+    public Prestation(String presta, int quantité, int tarif) {
+        this.presta = presta;
+        this.quantité = quantité;
+        this.tarif = tarif;
+    }
 
     //Constructor Setter
     public void setPresta(String presta) {
