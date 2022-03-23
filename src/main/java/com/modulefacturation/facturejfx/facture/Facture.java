@@ -1,22 +1,27 @@
 package com.modulefacturation.facturejfx.facture;
 
 
+
+import com.dlsc.formsfx.model.structure.Element;
+import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.kernel.pdf.canvas.draw.DottedLine;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.ElementPropertyContainer;
 import com.itextpdf.layout.borders.Border;
-import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.element.Text;
+import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
 import com.modulefacturation.facturejfx.client.Prestation;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -120,26 +125,28 @@ public class Facture {
         PdfWriter writer = new PdfWriter(dest);
         PdfDocument pdfDoc = new PdfDocument(writer);// Creating a PdfDocument
 
-        
+
         // Creating a new page
         PdfPage pdfPage = pdfDoc.addNewPage();
         Document doc = new Document(pdfDoc);// Creating a Document
         PdfFont font = PdfFontFactory.createFont(HELVETICA);//création de la font du document
-        
-        
+
+        pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new Footer.TextFooterEventHandler(doc));
+
+
         //création du format général du document
 
-        
+
         //création du paragraphe du logo
         var logo = new Paragraph("Ici mon logo");
         //TODO ajouter l'import de l'image pour le logo
 
-        
+
         //création du paragraphe Titre facture avec date
         var facture = new Paragraph("Numéro de facture");
         //TODO ajouter le numéro de facture et la date de la facture
 
-        
+
         //création du paragraphe info du prestataire
         var paragraphInfoFactureur = new Paragraph("Emetteur de la facture :");
         paragraphInfoFactureur.add(new Text("\n"));
@@ -181,9 +188,45 @@ public class Facture {
         //Paragraphe d'info légales
         var informationLegales = new Paragraph("Pagraphes d'information légales a propos de la TVA toussa.");
         var piedDePage = new Paragraph("Information de pieds de page");
+        piedDePage.setTextAlignment(TextAlignment.RIGHT);
 
 
-/*      //Création de la ligne séparatrice
+
+
+/*        PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
+        PdfCanvas canvas = new PdfCanvas(docEvent.getPage());
+        Rectangle pageSize = docEvent.getPage().getPageSize();
+        canvas.beginText();
+        try {
+            canvas.setFontAndSize(PdfFontFactory.createFont(FontConstants.HELVETICA_OBLIQUE), 5);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        canvas.moveText((pageSize.getRight() - doc.getRightMargin() - (pageSize.getLeft() + doc.getLeftMargin())) / 2 + doc.getLeftMargin(), pageSize.getTop() - doc.getTopMargin() + 10)
+                .showText("this is a header")
+                .moveText(0, (pageSize.getBottom() + doc.getBottomMargin()) - (pageSize.getTop() + doc.getTopMargin()) - 20)
+                .showText("this is a footer")
+                .endText()
+                .release();*/
+
+
+
+      //Création de la ligne séparatrice
+
+    class CustomDottedLine extends DottedLine {
+        private Rectangle pageSize;
+
+        public CustomDottedLine(Rectangle pageSize) {
+            this.pageSize = pageSize;
+        }
+
+        @Override
+        public void draw(PdfCanvas canvas, Rectangle drawArea) {
+            // Dotted line from the left edge of the page to the right edge.
+            super.draw(canvas, new Rectangle(pageSize.getLeft(), drawArea.getBottom(), pageSize.getWidth(), drawArea.getHeight()));
+        }
+    }
+    /*
         // Creating a PdfCanvas object
         PdfCanvas canvas = new PdfCanvas(pdfPage);
         // Initial point of the line
@@ -193,7 +236,7 @@ public class Facture {
         canvas.closePathStroke();*/
 
 
-        
+
         //Création de tableau Infos
         // Creating a table object
         float [] dimensionsInfos = {500F, 500F};
@@ -211,7 +254,7 @@ public class Facture {
         float [] dimensionsPresta = {500F, 100F, 100F};
         Table tablePresta = new Table(dimensionsPresta);
 
-        liste.stream().forEach((Consumer<? super Prestation>) tablePresta.addCell(new Cell().add()));
+        //liste.stream().forEach((Consumer<? super Prestation>) tablePresta.addCell(new Cell().add()));
 
 
 
@@ -220,13 +263,33 @@ public class Facture {
 
         //J'ajoute tous les éléments au doc
         doc.add(tableInfos);
+
+        doc.add(new LineSeparator(new CustomDottedLine(pdfDoc.getDefaultPageSize())));
+
+
         doc.add(tablePresta);
+        doc.add(new LineSeparator(new CustomDottedLine(pdfDoc.getDefaultPageSize())));
+
 
         doc.add(prix);
 
 
         doc.add(informationLegales);
-        doc.add(piedDePage);
+
+        // Ajout du numéro de page
+/*        for (int i = 1; i <= doc.getPdfDocument().getNumberOfPages(); i++) {
+            Rectangle pageSize = doc.getPdfDocument().getPage(i).getPageSize();
+            float x = pageSize.getWidth() / 2;
+            float y = pageSize.getBottom() - 30;
+            doc.showTextAligned(piedDePage, x, y, i, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0);
+        }
+
+        int numberOfPages = pdfDoc.getNumberOfPages();
+        for (int i = 1; i <= numberOfPages; i++) {
+
+            // Write aligned text to the specified by parameters point
+            doc.showTextAligned(new Paragraph(String.format("page %s de %s", i, numberOfPages)),559, 807, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
+        }*/
 
         doc.close();
         System.out.println("génération du PDF effectué");
