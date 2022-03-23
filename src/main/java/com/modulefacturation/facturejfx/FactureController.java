@@ -94,6 +94,7 @@ public class FactureController {
         client.setFirstName(nom.getText());
         client.setLastName(prenom.getText());
         client.setAdress(adresse.getText());
+        client.setMail(mail.getText());
         client.checkCreation();
 
 
@@ -243,6 +244,7 @@ public class FactureController {
         btnClientInfos.setVisible(true);
         btnOption.setDisable(true);
         btnOption.setVisible(false);
+        initPrestataire();
     }
 
     @FXML

@@ -2,7 +2,6 @@ package com.modulefacturation.facturejfx.facture;
 
 
 
-import com.dlsc.formsfx.model.structure.Element;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -13,21 +12,20 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.canvas.draw.DottedLine;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.ElementPropertyContainer;
-import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
 import com.modulefacturation.facturejfx.client.Prestation;
+import com.sun.mail.imap.Rights;
 
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.function.Consumer;
+
 
 import static com.itextpdf.io.font.constants.StandardFonts.HELVETICA;
 
@@ -82,6 +80,8 @@ public class Facture {
     private static String dateFacture;
     private static String path = "C:/Factures/";
     private static String completePath = path+nomFacture;
+    private static double total = 0.0;
+
 
 
 
@@ -93,6 +93,9 @@ public class Facture {
         //Le numéro de la facture doit être chronologique et sans rupture ... Fuck.
 
 
+        //********************création du format général du document******************************
+
+
         //récupération du numéro de facture
         FactureNumberPersister numero = new FactureNumberPersister("NumeroFacture.txt");
         try {
@@ -101,23 +104,15 @@ public class Facture {
             e.printStackTrace();
         }
 
+
         //récupération de la date du jour
         /*SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);*/
         dateFacture = String.valueOf(LocalDate.now());
 
+
         //concaténation du numéro de facture et de la date du jour pour avoir le nom du fichier pdf de la facture
         nomFacture = dateFacture + "-000" + numFacture +".pdf";
         System.out.println("Voici le nom de la facture : "+nomFacture);
-
-
-/*        Document document = new Document(pdfDoc);
-        Document doc = new Document();
-        PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(nomFacture));
-        doc.open();*/
-
-       // var bold = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-
-
 
 
         //création du document PDF
@@ -131,40 +126,45 @@ public class Facture {
         Document doc = new Document(pdfDoc);// Creating a Document
         PdfFont font = PdfFontFactory.createFont(HELVETICA);//création de la font du document
 
-        pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new Footer.TextFooterEventHandler(doc));
 
 
-        //création du format général du document
+
+
+
+
+
+        //********************création des différents paragraphes du document******************************
 
 
         //création du paragraphe du logo
         var logo = new Paragraph("Ici mon logo");
+        logo.setFont(font).setFontSize(24).setBold();
         //TODO ajouter l'import de l'image pour le logo
 
 
         //création du paragraphe Titre facture avec date
-        var facture = new Paragraph("Numéro de facture");
-        //TODO ajouter le numéro de facture et la date de la facture
+        var facture = new Paragraph("Facture N°"+numFacture);
+        facture.setFont(font).setFontSize(24).setBold();
+        var date  = new Paragraph(dateFacture);
+
 
 
         //création du paragraphe info du prestataire
-        var paragraphInfoFactureur = new Paragraph("Emetteur de la facture :");
+        var paragraphInfoFactureur = new Paragraph("Facturé par :");
         paragraphInfoFactureur.add(new Text("\n"));
-        paragraphInfoFactureur.add(prestataire.getFirstName());
-        paragraphInfoFactureur.add(new Text("\n"));
-        paragraphInfoFactureur.add(prestataire.getLastName());
+        paragraphInfoFactureur.add(prestataire.getFirstName() +" "+prestataire.getLastName());
         paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getAdress());
         paragraphInfoFactureur.add(new Text("\n"));
         paragraphInfoFactureur.add(prestataire.getMail());
         paragraphInfoFactureur.add(new Text("\n"));
-        paragraphInfoFactureur.add(prestataire.getSiret());
+        paragraphInfoFactureur.add("Siret : " +prestataire.getSiret());
         paragraphInfoFactureur.add(new Text("\n"));
-        paragraphInfoFactureur.add(prestataire.getWeb());
+        paragraphInfoFactureur.add("Web : "+prestataire.getWeb());
 
 
         //création du paragraphe info client
-        var paragraphInfoClient = new Paragraph("Client :");
+        var paragraphInfoClient = new Paragraph("Facturé à :");
         paragraphInfoClient.add(new Text("\n"));
         paragraphInfoClient.add(client.getFirstName());
         paragraphInfoClient.add(new Text("\n"));
@@ -172,124 +172,116 @@ public class Facture {
         paragraphInfoClient.add(new Text("\n"));
         paragraphInfoClient.add(client.getAdress());
         paragraphInfoClient.add(new Text("\n"));
+        paragraphInfoClient.add(client.getMail());
 
 
-        //création du paragraphe des prestations avec quantité et prix
-        var presta = new Paragraph("Prestation");
+        //Paragraphe du prix
+        var paragraphePrix = new Paragraph();
+        paragraphePrix.add(new Text("Total HT :").setBold().setFontSize(20));
+        paragraphePrix.add(new Text("\n"));
+        paragraphePrix.add(new Text("TVA non applicable, art. 293 B du CGI").setFontSize(8));
 
 
-
-
-        //Paragraphe du prix total
-        var prix = new Paragraph("Prix Total");
-
+        //Paragraphe du total
+        var paragrapheTotal = new Paragraph();
+        paragrapheTotal.add(total+" €").setFontSize(20).setBold();
 
 
         //Paragraphe d'info légales
-        var informationLegales = new Paragraph("Pagraphes d'information légales a propos de la TVA toussa.");
-        var piedDePage = new Paragraph("Information de pieds de page");
-        piedDePage.setTextAlignment(TextAlignment.RIGHT);
+        var paragraphInformationLegales = new Paragraph("Instruction de paiement");
+        paragraphInformationLegales.add(new Text("\n"));
+        paragraphInformationLegales.add("Date de réglement : ");
+        paragraphInformationLegales.add(new Text("\n"));
+        paragraphInformationLegales.add("Date d'éxécution de la vente : ");
+        paragraphInformationLegales.add(new Text("\n"));
+        paragraphInformationLegales.add("Ou de la prestation : ");
+        paragraphInformationLegales.add(new Text("\n"));
+        paragraphInformationLegales.add("Taux de pénalités à compter du : ");
+        paragraphInformationLegales.add(new Text("\n"));
+        paragraphInformationLegales.add("En l’absence de paiement : ");
+        paragraphInformationLegales.add(new Text("\n"));
+        paragraphInformationLegales.add("Conditions d’escompte : ");
+
+
+        //Création du pied de page
+        pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new Footer.TextFooterEventHandler(doc));//Alors celui là m'aura bien fait chier.
 
 
 
 
-/*        PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-        PdfCanvas canvas = new PdfCanvas(docEvent.getPage());
-        Rectangle pageSize = docEvent.getPage().getPageSize();
-        canvas.beginText();
-        try {
-            canvas.setFontAndSize(PdfFontFactory.createFont(FontConstants.HELVETICA_OBLIQUE), 5);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        canvas.moveText((pageSize.getRight() - doc.getRightMargin() - (pageSize.getLeft() + doc.getLeftMargin())) / 2 + doc.getLeftMargin(), pageSize.getTop() - doc.getTopMargin() + 10)
-                .showText("this is a header")
-                .moveText(0, (pageSize.getBottom() + doc.getBottomMargin()) - (pageSize.getTop() + doc.getTopMargin()) - 20)
-                .showText("this is a footer")
-                .endText()
-                .release();*/
 
 
 
-      //Création de la ligne séparatrice
+        //***********************************CREATION DES TABLES à ajouter dans le PDF*************************
 
-    class CustomDottedLine extends DottedLine {
-        private Rectangle pageSize;
-
-        public CustomDottedLine(Rectangle pageSize) {
-            this.pageSize = pageSize;
-        }
-
-        @Override
-        public void draw(PdfCanvas canvas, Rectangle drawArea) {
-            // Dotted line from the left edge of the page to the right edge.
-            super.draw(canvas, new Rectangle(pageSize.getLeft(), drawArea.getBottom(), pageSize.getWidth(), drawArea.getHeight()));
-        }
-    }
-    /*
-        // Creating a PdfCanvas object
-        PdfCanvas canvas = new PdfCanvas(pdfPage);
-        // Initial point of the line
-        canvas.moveTo(100, 300);
-        // Drawing the line
-        canvas.lineTo(500, 300);
-        canvas.closePathStroke();*/
-
-
-
-        //Création de tableau Infos
+        //Création de tableau Logo
         // Creating a table object
+        float [] dimensionsLogo = {500F, 500F};
+        Table tableLogo = new Table(dimensionsLogo);
+        //tableLogo.setAutoLayout();
+        //tableLogo.setBorder(null);
+        tableLogo.setMarginBottom(70);
+        // Adding cells to the table
+        tableLogo.addCell(new Cell().add(logo).setTextAlignment(TextAlignment.CENTER).setBorder(null));
+        tableLogo.addCell(new Cell().add(facture).add(date).setTextAlignment(TextAlignment.CENTER).setBorder(null));
+
+
+        //Création du tableau des infos prestataire et client
         float [] dimensionsInfos = {500F, 500F};
         Table tableInfos = new Table(dimensionsInfos);
-        tableInfos.setAutoLayout();
-        tableInfos.setBorder(Border.NO_BORDER);
+        //tableInfos.setAutoLayout();
+        //tableInfos.setBorder(Border.NO_BORDER);
+        tableInfos.setMarginBottom(50);
         // Adding cells to the table
-        tableInfos.addCell(new Cell().add(logo));
-        tableInfos.addCell(new Cell().add(facture));
-        tableInfos.addCell(new Cell().add(paragraphInfoFactureur));
-        tableInfos.addCell(new Cell().add(paragraphInfoClient));
+        tableInfos.addCell(new Cell().add(paragraphInfoFactureur).setBorder(null));
+        tableInfos.addCell(new Cell().add(paragraphInfoClient).setBorder(null));
 
 
         //Création du tableau des prestations
         float [] dimensionsPresta = {500F, 100F, 100F};
         Table tablePresta = new Table(dimensionsPresta);
-
+        tablePresta.setMarginBottom(20);
+        tablePresta.addCell("Prestation").setTextAlignment(TextAlignment.CENTER);
+        tablePresta.addCell("Quantité").setTextAlignment(TextAlignment.CENTER);
+        tablePresta.addCell("Prix unitaire").setTextAlignment(TextAlignment.CENTER);
+        //TODO listing des prestations dans le tableau depuis la liste prestas en parametre
+        //TODO les prestas sont alignées à gauche le reste au centre
         //liste.stream().forEach((Consumer<? super Prestation>) tablePresta.addCell(new Cell().add()));
 
 
+        //Création du tableau du prix et des information légales
+        float [] dimensionsPrix = {500F, 500f, 200f};
+        Table tablePrix = new Table(dimensionsPrix);
+        tablePrix.addCell(paragraphInformationLegales.setTextAlignment(TextAlignment.LEFT));
+        tablePrix.addCell(paragraphePrix.setTextAlignment(TextAlignment.RIGHT));
+        tablePrix.addCell(paragrapheTotal.setTextAlignment(TextAlignment.RIGHT));
 
 
 
 
-        //J'ajoute tous les éléments au doc
+
+
+        //**********************Ajout des tables au document PDF****************************
+
+        doc.add(tableLogo);
+
         doc.add(tableInfos);
 
-        doc.add(new LineSeparator(new CustomDottedLine(pdfDoc.getDefaultPageSize())));
-
-
         doc.add(tablePresta);
-        doc.add(new LineSeparator(new CustomDottedLine(pdfDoc.getDefaultPageSize())));
 
+        doc.add(tablePrix);
 
-        doc.add(prix);
-
-
-        doc.add(informationLegales);
 
         // Ajout du numéro de page
-/*        for (int i = 1; i <= doc.getPdfDocument().getNumberOfPages(); i++) {
+        int numberOfPages = pdfDoc.getNumberOfPages();
+        for (int i = 1; i <= numberOfPages; i++) {
             Rectangle pageSize = doc.getPdfDocument().getPage(i).getPageSize();
             float x = pageSize.getWidth() / 2;
             float y = pageSize.getBottom() - 30;
-            doc.showTextAligned(piedDePage, x, y, i, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0);
+            // Write aligned text to the specified by parameters point
+            doc.showTextAligned(new Paragraph(String.format("page %s de %s", i, numberOfPages)),x, y, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
         }
 
-        int numberOfPages = pdfDoc.getNumberOfPages();
-        for (int i = 1; i <= numberOfPages; i++) {
-
-            // Write aligned text to the specified by parameters point
-            doc.showTextAligned(new Paragraph(String.format("page %s de %s", i, numberOfPages)),559, 807, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-        }*/
 
         doc.close();
         System.out.println("génération du PDF effectué");
