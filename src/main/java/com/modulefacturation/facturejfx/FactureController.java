@@ -83,6 +83,7 @@ public class FactureController {
     protected void generationFacture() {
         alertSuccess.setVisible(true);
         alertDanger.setVisible(false);
+        alertInfo.setVisible(false);
 
         //récupération des infos du prestataire
         Prestataire prestataire = new Prestataire();
@@ -256,6 +257,7 @@ public class FactureController {
         //TODO gérer les erreurs quand les champs sont vides
         Prestation prestas = new Prestation(prestation.getText(), Integer.parseInt(quantity.getText()), Integer.parseInt(prix.getText()));
         prestas.addToListe(prestas);
+        prestas.checkCreation();
         prestation.clear();
         prix.clear();
         quantity.clear();

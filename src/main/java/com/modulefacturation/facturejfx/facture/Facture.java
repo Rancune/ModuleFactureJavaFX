@@ -9,8 +9,6 @@ import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import com.itextpdf.kernel.pdf.canvas.draw.DottedLine;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.TextAlignment;
@@ -18,13 +16,13 @@ import com.itextpdf.layout.properties.VerticalAlignment;
 import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
 import com.modulefacturation.facturejfx.client.Prestation;
-import com.sun.mail.imap.Rights;
 
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 
 import static com.itextpdf.io.font.constants.StandardFonts.HELVETICA;
@@ -188,7 +186,7 @@ public class Facture {
 
 
         //Paragraphe d'info légales
-        var paragraphInformationLegales = new Paragraph("Instruction de paiement");
+        var paragraphInformationLegales = new Paragraph("Instruction de paiement").setFontSize(8);
         paragraphInformationLegales.add(new Text("\n"));
         paragraphInformationLegales.add("Date de réglement : ");
         paragraphInformationLegales.add(new Text("\n"));
@@ -244,17 +242,39 @@ public class Facture {
         tablePresta.addCell("Prestation").setTextAlignment(TextAlignment.CENTER);
         tablePresta.addCell("Quantité").setTextAlignment(TextAlignment.CENTER);
         tablePresta.addCell("Prix unitaire").setTextAlignment(TextAlignment.CENTER);
+        tablePresta.addCell("Prix unitaire").setTextAlignment(TextAlignment.CENTER);
+        tablePresta.addCell("Prix unitaire").setTextAlignment(TextAlignment.CENTER);
         //TODO listing des prestations dans le tableau depuis la liste prestas en parametre
         //TODO les prestas sont alignées à gauche le reste au centre
-        //liste.stream().forEach((Consumer<? super Prestation>) tablePresta.addCell(new Cell().add()));
+
+        public void ajoutPrestationAuTableau(Prestation prestation){
+
+        }
+
+        liste.stream().forEach(entry ->tablePresta.addCell(entry.getPresta()), tablePresta.addCell(entry.getQuantité()), tablePresta.addCell(s.getPrix));
+
+        System.out.println("presta ajoutée : avant la boucle");
+
+        for (Prestation listeP: liste) {
+            tablePresta.addCell(listeP.presta).setTextAlignment(TextAlignment.CENTER);
+            System.out.println("presta ajoutée : "+listeP.presta);
+            tablePresta.addCell(String.valueOf(listeP.quantité)).setTextAlignment(TextAlignment.CENTER);
+            tablePresta.addCell(String.valueOf(listeP.tarif)).setTextAlignment(TextAlignment.CENTER);
+
+        }
+
+       // liste.forEach((Consumer<? super Prestation>) tablePresta.addCell("testpresta"));
+
+
+
 
 
         //Création du tableau du prix et des information légales
-        float [] dimensionsPrix = {500F, 500f, 200f};
+        float [] dimensionsPrix = {500F, 150f, 200f};
         Table tablePrix = new Table(dimensionsPrix);
-        tablePrix.addCell(paragraphInformationLegales.setTextAlignment(TextAlignment.LEFT));
-        tablePrix.addCell(paragraphePrix.setTextAlignment(TextAlignment.RIGHT));
-        tablePrix.addCell(paragrapheTotal.setTextAlignment(TextAlignment.RIGHT));
+        tablePrix.addCell(paragraphInformationLegales.setTextAlignment(TextAlignment.LEFT).setBorder(null));
+        tablePrix.addCell(paragraphePrix.setTextAlignment(TextAlignment.RIGHT)).setBorder(null);
+        tablePrix.addCell(paragrapheTotal.setTextAlignment(TextAlignment.RIGHT).setBorder(null));
 
 
 
