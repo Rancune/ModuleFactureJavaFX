@@ -22,10 +22,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 
 import static com.itextpdf.io.font.constants.StandardFonts.HELVETICA;
+import static com.itextpdf.layout.properties.TextAlignment.*;
 
 public class Facture {
 
@@ -202,7 +204,7 @@ public class Facture {
 
 
         //Création du pied de page
-        pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new Footer.TextFooterEventHandler(doc));//Alors celui là m'aura bien fait chier.
+        pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new Footer.TextFooterEventHandler(doc));//Alors celui la m'aura bien fait chier.
 
 
 
@@ -220,8 +222,8 @@ public class Facture {
         //tableLogo.setBorder(null);
         tableLogo.setMarginBottom(70);
         // Adding cells to the table
-        tableLogo.addCell(new Cell().add(logo).setTextAlignment(TextAlignment.CENTER).setBorder(null));
-        tableLogo.addCell(new Cell().add(facture).add(date).setTextAlignment(TextAlignment.CENTER).setBorder(null));
+        tableLogo.addCell(new Cell().add(logo).setTextAlignment(CENTER).setBorder(null));
+        tableLogo.addCell(new Cell().add(facture).add(date).setTextAlignment(CENTER).setBorder(null));
 
 
         //Création du tableau des infos prestataire et client
@@ -239,27 +241,28 @@ public class Facture {
         float [] dimensionsPresta = {500F, 100F, 100F};
         Table tablePresta = new Table(dimensionsPresta);
         tablePresta.setMarginBottom(20);
-        tablePresta.addCell("Prestation").setTextAlignment(TextAlignment.CENTER);
-        tablePresta.addCell("Quantité").setTextAlignment(TextAlignment.CENTER);
-        tablePresta.addCell("Prix unitaire").setTextAlignment(TextAlignment.CENTER);
-        tablePresta.addCell("Prix unitaire").setTextAlignment(TextAlignment.CENTER);
-        tablePresta.addCell("Prix unitaire").setTextAlignment(TextAlignment.CENTER);
+        tablePresta.addCell("Prestation").setTextAlignment(CENTER);
+        tablePresta.addCell("Quantité").setTextAlignment(CENTER);
+        tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER);
+        tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER);
+        tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER);
         //TODO listing des prestations dans le tableau depuis la liste prestas en parametre
         //TODO les prestas sont alignées à gauche le reste au centre
 
-        public void ajoutPrestationAuTableau(Prestation prestation){
+       // public void ajoutPrestationAuTableau(Prestation prestation){
 
-        }
-
-        liste.stream().forEach(entry ->tablePresta.addCell(entry.getPresta()), tablePresta.addCell(entry.getQuantité()), tablePresta.addCell(s.getPrix));
+       //}
+        liste.stream().forEach(entry -> System.out.println(entry.getPresta()));
+        liste.stream().forEach(entry ->tablePresta.addCell(entry.getPresta()));
+        //liste.stream().forEach(System.out.println("test listing"));
 
         System.out.println("presta ajoutée : avant la boucle");
 
         for (Prestation listeP: liste) {
-            tablePresta.addCell(listeP.presta).setTextAlignment(TextAlignment.CENTER);
+            tablePresta.addCell(listeP.presta).setTextAlignment(CENTER);
             System.out.println("presta ajoutée : "+listeP.presta);
-            tablePresta.addCell(String.valueOf(listeP.quantité)).setTextAlignment(TextAlignment.CENTER);
-            tablePresta.addCell(String.valueOf(listeP.tarif)).setTextAlignment(TextAlignment.CENTER);
+            tablePresta.addCell(String.valueOf(listeP.quantité)).setTextAlignment(CENTER);
+            tablePresta.addCell(String.valueOf(listeP.tarif)).setTextAlignment(CENTER);
 
         }
 
@@ -272,9 +275,9 @@ public class Facture {
         //Création du tableau du prix et des information légales
         float [] dimensionsPrix = {500F, 150f, 200f};
         Table tablePrix = new Table(dimensionsPrix);
-        tablePrix.addCell(paragraphInformationLegales.setTextAlignment(TextAlignment.LEFT).setBorder(null));
-        tablePrix.addCell(paragraphePrix.setTextAlignment(TextAlignment.RIGHT)).setBorder(null);
-        tablePrix.addCell(paragrapheTotal.setTextAlignment(TextAlignment.RIGHT).setBorder(null));
+        tablePrix.addCell(paragraphInformationLegales.setTextAlignment(LEFT).setBorder(null));
+        tablePrix.addCell(paragraphePrix.setTextAlignment(RIGHT)).setBorder(null);
+        tablePrix.addCell(paragrapheTotal.setTextAlignment(RIGHT).setBorder(null));
 
 
 
@@ -299,7 +302,7 @@ public class Facture {
             float x = pageSize.getWidth() / 2;
             float y = pageSize.getBottom() - 30;
             // Write aligned text to the specified by parameters point
-            doc.showTextAligned(new Paragraph(String.format("page %s de %s", i, numberOfPages)),x, y, i, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0);
+            doc.showTextAligned(new Paragraph(String.format("page %s de %s", i, numberOfPages)),x, y, i, RIGHT, VerticalAlignment.BOTTOM, 0);
         }
 
 

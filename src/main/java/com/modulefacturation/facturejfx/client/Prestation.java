@@ -2,6 +2,8 @@ package com.modulefacturation.facturejfx.client;
 
 import java.util.ArrayList;
 
+import static com.itextpdf.layout.properties.TextAlignment.CENTER;
+
 public class Prestation {
 
     public String presta;
@@ -55,7 +57,19 @@ public class Prestation {
 
 
     public void checkCreation(){
+
         System.out.println("Objet Prestation Créé");
+
+        liste.forEach(String nom) -> {
+            System.out.println(nom);
+        };
+
+        for (Prestation listeP: liste) {
+
+            System.out.println("liste des prestas : "+listeP.presta);
+
+
+        }
     }
 
 
