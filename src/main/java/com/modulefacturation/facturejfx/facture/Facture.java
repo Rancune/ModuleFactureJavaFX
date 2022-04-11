@@ -86,7 +86,7 @@ public class Facture {
 
 
     // ICI on crée le pdf de la facture. Buckle Up !  that's a wild ride.
-    public static void generationPdf(Prestataire prestataire, Client client, ArrayList<Prestation> liste) throws Exception , FileNotFoundException {
+    public static void generationPdf(Prestataire prestataire, Client client, List<Prestation> liste) throws Exception , FileNotFoundException {
 
 
 
@@ -244,29 +244,23 @@ public class Facture {
         tablePresta.addCell("Prestation").setTextAlignment(CENTER);
         tablePresta.addCell("Quantité").setTextAlignment(CENTER);
         tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER);
-        tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER);
-        tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER);
+
         //TODO listing des prestations dans le tableau depuis la liste prestas en parametre
         //TODO les prestas sont alignées à gauche le reste au centre
 
-       // public void ajoutPrestationAuTableau(Prestation prestation){
 
-       //}
-        liste.stream().forEach(entry -> System.out.println(entry.getPresta()));
         liste.stream().forEach(entry ->tablePresta.addCell(entry.getPresta()));
-        //liste.stream().forEach(System.out.println("test listing"));
+
 
         System.out.println("presta ajoutée : avant la boucle");
 
         for (Prestation listeP: liste) {
             tablePresta.addCell(listeP.presta).setTextAlignment(CENTER);
-            System.out.println("presta ajoutée : "+listeP.presta);
             tablePresta.addCell(String.valueOf(listeP.quantité)).setTextAlignment(CENTER);
             tablePresta.addCell(String.valueOf(listeP.tarif)).setTextAlignment(CENTER);
 
         }
 
-       // liste.forEach((Consumer<? super Prestation>) tablePresta.addCell("testpresta"));
 
 
 

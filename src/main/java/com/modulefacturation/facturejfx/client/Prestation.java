@@ -1,6 +1,10 @@
 package com.modulefacturation.facturejfx.client;
 
+import com.modulefacturation.facturejfx.facture.TableauPrestation;
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.itextpdf.layout.properties.TextAlignment.CENTER;
 
@@ -8,9 +12,14 @@ public class Prestation {
 
     public String presta;
     public int quantité;
+
+    public Prestation() {
+    }
+
     public int tarif;
     public int total = quantité * tarif;
-    private ArrayList<Prestation> liste = new ArrayList<Prestation>();
+    //public List<Prestation> liste = new ArrayList<>();
+    public TableauPrestation tableauPrestation;
 
     public Prestation(String presta, int quantité, int tarif) {
         this.presta = presta;
@@ -50,7 +59,8 @@ public class Prestation {
 
     // Ajouter la presta à la liste des presta à facturer
     public void addToListe(Prestation prestation){
-        liste.add(prestation);
+      //  liste.add(prestation);
+        System.out.println();
     }
 
 
@@ -58,18 +68,19 @@ public class Prestation {
 
     public void checkCreation(){
 
-        System.out.println("Objet Prestation Créé");
+        System.out.println("C est cree");
 
-        liste.forEach(String nom) -> {
-            System.out.println(nom);
-        };
 
-        for (Prestation listeP: liste) {
+       // liste.stream().forEach(s -> System.out.println("voici la liste des presta : "+ s.getPresta()));
+
+
+
+        /*for (Prestation listeP: liste) {
 
             System.out.println("liste des prestas : "+listeP.presta);
 
 
-        }
+        }*/
     }
 
 

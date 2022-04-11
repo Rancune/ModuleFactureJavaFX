@@ -100,10 +100,14 @@ public class FactureController {
 
 
         //récupération des infos presta
-        Prestation prestas = new Prestation(prestation.getText(), Integer.parseInt(quantity.getText()), Integer.parseInt(prix.getText()));
+        Prestation prestas = new Prestation();
+        prestas.setPresta(prestation.getText());
+        prestas.setQuantité(Integer.parseInt(quantity.getText()));
+        prestas.setTarif(Integer.parseInt(prix.getText()));
 
 
         // prestation.addToliste(prestation);
+        prestas
         prestas.checkCreation();
 
 
