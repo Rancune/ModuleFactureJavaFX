@@ -47,8 +47,6 @@
         <TextField fx:id="mail" GridPane.columnIndex="1" GridPane.rowIndex="4"  promptText="Mail" styleClass="bg-default" />
 
 
-
-
         <Label GridPane.columnIndex="0" GridPane.rowIndex="5" text="Prestation" textAlignment="LEFT" />
         <TextArea fx:id="prestation" GridPane.columnIndex="1" GridPane.rowIndex="5"  promptText="Prestation" styleClass="bg-default" />
 
@@ -61,20 +59,19 @@
         <TextField fx:id="prix" GridPane.columnIndex="1" GridPane.rowIndex="7"  promptText="Prix" styleClass="bg-default" />
 
 
-
-
-
         <TextFlow fx:id="alertSuccess" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-dismissible, alert-success">
             <Text text="OORAH!" styleClass="strong"/>
             <Text text=" La facture a été généré en pdf et envoyé par mail."/>
         </TextFlow>
 
+
         <TextFlow fx:id="alertInfo" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-dismissible, alert-info">
             <Text text="BOUYAH!" styleClass="strong"/>
             <Text text=" La prestation a été ajoutée."/>
         </TextFlow>
+
 
        <TextFlow fx:id="alertDanger" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-dismissible, alert-danger">
@@ -155,9 +152,6 @@
             <Tooltip styleClass="tooltip-success" text="Enregistre les informations prestataire"/>
         </tooltip>
         </Button>
-
-
-
 
     </GridPane>
 

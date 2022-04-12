@@ -19,6 +19,8 @@ public class Prestataire {
     private String tel;
     private String siret;
     private String web;
+    private String banque;
+    private String iban;
 
 
 
@@ -189,4 +191,12 @@ public class Prestataire {
     public void setMotDePasseMail(String motDePasseMail) {
         this.motDePasseMail = motDePasseMail;
     }
+
+    public String getBanque() {return banque;}
+
+    public void setBanque(String banque) {this.banque = banque;}
+
+    public String getIban() {return iban;}
+
+    public void setIban(String iban) {this.iban = iban;}
 }

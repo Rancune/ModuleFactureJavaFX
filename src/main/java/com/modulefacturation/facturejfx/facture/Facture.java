@@ -190,21 +190,21 @@ public class Facture {
         //Paragraphe d'info légales
         var paragraphInformationLegales = new Paragraph("Instruction de paiement").setFontSize(8);
         paragraphInformationLegales.add(new Text("\n"));
-        paragraphInformationLegales.add("Date de réglement : ");
+        paragraphInformationLegales.add("Echéance : Immédiate");
         paragraphInformationLegales.add(new Text("\n"));
-        paragraphInformationLegales.add("Date d'éxécution de la vente : ");
+        paragraphInformationLegales.add("Banque : "+prestataire.getBanque());
         paragraphInformationLegales.add(new Text("\n"));
-        paragraphInformationLegales.add("Ou de la prestation : ");
+        paragraphInformationLegales.add("IBAN : "+prestataire.getIban());
         paragraphInformationLegales.add(new Text("\n"));
-        paragraphInformationLegales.add("Taux de pénalités à compter du : ");
+        paragraphInformationLegales.add("Conditions: Paiement à reception. En cas de retard de paiement, \n " +
+                                        "application d'une indemnité  forfaitaire pour frais de recouvrement \n" +
+                                        "de 40€ selon l'article D 441-5du code du commerce.");
         paragraphInformationLegales.add(new Text("\n"));
-        paragraphInformationLegales.add("En l’absence de paiement : ");
-        paragraphInformationLegales.add(new Text("\n"));
-        paragraphInformationLegales.add("Conditions d’escompte : ");
+
 
 
         //Création du pied de page
-        pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new Footer.TextFooterEventHandler(doc));//Alors celui la m'aura bien fait chier.
+        pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new Footer.TextFooterEventHandler(doc, prestataire.getFirstName(),prestataire.getLastName(), prestataire.getSiret(), prestataire.getAdress()));//Alors celui la m'aura bien fait chier.
 
 
 
