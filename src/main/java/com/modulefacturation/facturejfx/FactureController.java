@@ -69,6 +69,10 @@ public class FactureController {
     @FXML
     private TextField telPresta;
     @FXML
+    private TextField banquePresta;
+    @FXML
+    private TextField ibanPresta;
+    @FXML
     private Button btnOption;
     @FXML
     private Button btnClientInfos;
@@ -173,7 +177,9 @@ public class FactureController {
                 pwPresta.getText(),
                 telPresta.getText(),
                 siretPresta.getText(),
-                webPresta.getText()
+                webPresta.getText(),
+                banquePresta.getText(),
+                ibanPresta.getText()
                 );
 
         prestataire.writeJson();
@@ -200,6 +206,9 @@ public class FactureController {
         telPresta.setText((String) prestataireObject.get("tel"));
         siretPresta.setText((String) prestataireObject.get("siret"));
         webPresta.setText((String) prestataireObject.get("web"));
+        banquePresta.setText((String) prestataireObject.get("banque"));
+        ibanPresta.setText((String) prestataireObject.get("iban"));
+
 
         Prestataire prestataire = new Prestataire(
                 (String) prestataireObject.get("lastName"),
@@ -209,7 +218,10 @@ public class FactureController {
                 (String) prestataireObject.get("motDePasseMail"),
                 (String) prestataireObject.get("tel"),
                 (String) prestataireObject.get("siret"),
-                (String) prestataireObject.get("web"));
+                (String) prestataireObject.get("web"),
+                (String) prestataireObject.get("banque"),
+                (String) prestataireObject.get("iban"));
+
 
 
         return prestataire;

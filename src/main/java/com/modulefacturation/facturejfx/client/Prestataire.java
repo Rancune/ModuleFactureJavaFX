@@ -116,7 +116,7 @@ public class Prestataire {
 
 
 
-    public Prestataire(String lastName, String firstName, String adress, String mail, String password, String tel, String siret, String web) {
+    public Prestataire(String lastName, String firstName, String adress, String mail, String password, String tel, String siret, String web, String banque, String iban) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.adress = adress;
@@ -125,6 +125,8 @@ public class Prestataire {
         this.tel = tel;
         this.siret = siret;
         this.web = web;
+        this.banque= banque;
+        this.iban = iban;
     }
 
 

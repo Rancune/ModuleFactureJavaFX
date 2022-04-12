@@ -135,6 +135,11 @@
         <Label GridPane.columnIndex="0" GridPane.rowIndex="8" text="Mot de passe email"/>
         <TextField fx:id="pwPresta" GridPane.columnIndex="1" GridPane.rowIndex="8"  promptText="Mot de passe" styleClass="bg-default" />
 
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="9" text="Banque"/>
+        <TextField fx:id="banquePresta" GridPane.columnIndex="1" GridPane.rowIndex="9"  promptText="Nom de votre banque" styleClass="bg-default" />
+
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="10" text="IBAN"/>
+        <TextField fx:id="ibanPresta" GridPane.columnIndex="1" GridPane.rowIndex="10"  promptText="Renseigner votre IBAN" styleClass="bg-default" />
 
         <TextFlow fx:id="alertSuccessPresta" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.hgrow="ALWAYS" visible="false"
                   styleClass="alert, alert-success">
