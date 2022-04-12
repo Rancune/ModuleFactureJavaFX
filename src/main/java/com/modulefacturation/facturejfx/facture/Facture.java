@@ -2,6 +2,7 @@ package com.modulefacturation.facturejfx.facture;
 
 
 
+import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -10,8 +11,8 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
@@ -21,9 +22,7 @@ import com.modulefacturation.facturejfx.client.Prestation;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
+
 
 
 import static com.itextpdf.io.font.constants.StandardFonts.HELVETICA;
@@ -85,8 +84,9 @@ public class Facture {
 
 
 
+
     // ICI on crée le pdf de la facture. Buckle Up !  that's a wild ride.
-    public static void generationPdf(Prestataire prestataire, Client client, List<Prestation> liste) throws Exception , FileNotFoundException {
+    public static void generationPdf(Prestataire prestataire, Client client, TableauPrestation tabPrestation) throws Exception , FileNotFoundException {
 
 
 
@@ -184,7 +184,7 @@ public class Facture {
 
         //Paragraphe du total
         var paragrapheTotal = new Paragraph();
-        paragrapheTotal.add(total+" €").setFontSize(20).setBold();
+
 
 
         //Paragraphe d'info légales
@@ -239,28 +239,20 @@ public class Facture {
 
         //Création du tableau des prestations
         float [] dimensionsPresta = {500F, 100F, 100F};
-        Table tablePresta = new Table(dimensionsPresta);
+        Table tablePresta = new Table(dimensionsPresta).setBorder(Border.NO_BORDER);
         tablePresta.setMarginBottom(20);
-        tablePresta.addCell("Prestation").setTextAlignment(CENTER);
-        tablePresta.addCell("Quantité").setTextAlignment(CENTER);
-        tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER);
-
-        //TODO listing des prestations dans le tableau depuis la liste prestas en parametre
+        tablePresta.addCell("Prestation").setTextAlignment(CENTER).setBold().setBackgroundColor(ColorConstants.GRAY);
+        tablePresta.addCell("Quantité").setTextAlignment(CENTER).setBold();
+        tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER).setBold();
         //TODO les prestas sont alignées à gauche le reste au centre
-
-
-        liste.stream().forEach(entry ->tablePresta.addCell(entry.getPresta()));
-
-
-        System.out.println("presta ajoutée : avant la boucle");
-
-        for (Prestation listeP: liste) {
-            tablePresta.addCell(listeP.presta).setTextAlignment(CENTER);
+        //liste.stream().forEach(entry ->tablePresta.addCell(entry.getPresta()));
+        for (Prestation listeP: tabPrestation.getListe()) {
+            tablePresta.addCell(listeP.presta).setTextAlignment(LEFT);
             tablePresta.addCell(String.valueOf(listeP.quantité)).setTextAlignment(CENTER);
             tablePresta.addCell(String.valueOf(listeP.tarif)).setTextAlignment(CENTER);
-
+            total = total + (listeP.tarif * listeP.quantité);
         }
-
+        paragrapheTotal.add(total+" €").setFontSize(20).setBold();
 
 
 
@@ -269,9 +261,11 @@ public class Facture {
         //Création du tableau du prix et des information légales
         float [] dimensionsPrix = {500F, 150f, 200f};
         Table tablePrix = new Table(dimensionsPrix);
-        tablePrix.addCell(paragraphInformationLegales.setTextAlignment(LEFT).setBorder(null));
-        tablePrix.addCell(paragraphePrix.setTextAlignment(RIGHT)).setBorder(null);
-        tablePrix.addCell(paragrapheTotal.setTextAlignment(RIGHT).setBorder(null));
+        //tablePrix.setBorder(Border.NO_BORDER);
+        tablePrix.addCell(new Cell().add(paragraphInformationLegales).setTextAlignment(LEFT).setBorder(Border.NO_BORDER));
+        tablePrix.addCell(new Cell().add(paragraphePrix).setTextAlignment(RIGHT).setBorder(Border.NO_BORDER));
+        tablePrix.addCell(new Cell().add(paragrapheTotal).setTextAlignment(RIGHT).setBorder(Border.NO_BORDER));
+
 
 
 

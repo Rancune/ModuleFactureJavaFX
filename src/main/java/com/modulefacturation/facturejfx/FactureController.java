@@ -4,6 +4,7 @@ import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
 import com.modulefacturation.facturejfx.client.Prestation;
 import com.modulefacturation.facturejfx.facture.Facture;
+import com.modulefacturation.facturejfx.facture.TableauPrestation;
 import com.modulefacturation.facturejfx.mail.Mail;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,7 +77,7 @@ public class FactureController {
 
     private Boolean active;
     private ArrayList<Prestation> listepresta = new ArrayList<Prestation>();
-
+    private TableauPrestation tabPresta = new TableauPrestation();
 
 
     @FXML
@@ -107,14 +108,13 @@ public class FactureController {
 
 
         // prestation.addToliste(prestation);
-        prestas
-        prestas.checkCreation();
+        tabPresta.ajoutPrestationsListe(prestas);
 
 
         //création du pdf avec les infos client et presta
         Facture facture = new Facture();
         try {
-            facture.generationPdf(prestataire, client, listepresta);
+            facture.generationPdf(prestataire, client, tabPresta);
 
         } catch (Exception  ex) {
             ex.printStackTrace();
@@ -260,8 +260,7 @@ public class FactureController {
 
         //TODO gérer les erreurs quand les champs sont vides
         Prestation prestas = new Prestation(prestation.getText(), Integer.parseInt(quantity.getText()), Integer.parseInt(prix.getText()));
-        prestas.addToListe(prestas);
-        prestas.checkCreation();
+        tabPresta.ajoutPrestationsListe(prestas);
         prestation.clear();
         prix.clear();
         quantity.clear();
