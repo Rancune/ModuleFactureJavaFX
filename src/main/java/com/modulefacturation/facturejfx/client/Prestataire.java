@@ -37,16 +37,18 @@ public class Prestataire {
         prestataireDetails.put("tel", this.tel);
         prestataireDetails.put("siret", this.siret);
         prestataireDetails.put("web", this.web);
+        prestataireDetails.put("banque", this.banque);
+        prestataireDetails.put("iban", this.iban);
 
         //JSONObject prestataireObject = new JSONObject();
        // prestataireObject.put("prestataire", prestataireDetails);
 
 
 
-        //Add employees to list
+
         JSONArray factureListInfo = new JSONArray();
         factureListInfo.add(prestataireDetails);
-        //employeeList.add(employeeObject2);
+
 
 
         //Write JSON file

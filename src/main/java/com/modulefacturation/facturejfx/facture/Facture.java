@@ -2,6 +2,7 @@ package com.modulefacturation.facturejfx.facture;
 
 
 
+import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
@@ -241,13 +242,13 @@ public class Facture {
         float [] dimensionsPresta = {500F, 100F, 100F};
         Table tablePresta = new Table(dimensionsPresta).setBorder(Border.NO_BORDER);
         tablePresta.setMarginBottom(20);
-        tablePresta.addCell("Prestation").setTextAlignment(CENTER).setBold().setBackgroundColor(ColorConstants.GRAY);
+        tablePresta.addCell("Prestation").setTextAlignment(CENTER).setBold().setBackgroundColor(ColorConstants.GRAY).setFontColor(ColorConstants.WHITE);
         tablePresta.addCell("Quantité").setTextAlignment(CENTER).setBold();
         tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER).setBold();
         //TODO les prestas sont alignées à gauche le reste au centre
         //liste.stream().forEach(entry ->tablePresta.addCell(entry.getPresta()));
         for (Prestation listeP: tabPrestation.getListe()) {
-            tablePresta.addCell(listeP.presta).setTextAlignment(LEFT);
+            tablePresta.addCell(listeP.presta).setTextAlignment(LEFT).setBackgroundColor(ColorConstants.LIGHT_GRAY);
             tablePresta.addCell(String.valueOf(listeP.quantité)).setTextAlignment(CENTER);
             tablePresta.addCell(String.valueOf(listeP.tarif)).setTextAlignment(CENTER);
             total = total + (listeP.tarif * listeP.quantité);
