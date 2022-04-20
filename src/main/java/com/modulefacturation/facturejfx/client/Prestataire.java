@@ -109,23 +109,7 @@ public class Prestataire {
     }
 
 
-    private static void parsePrestataireObject(JSONObject prestataire) {
 
-        //Get employee object within list
-        JSONObject prestataireObject = (JSONObject) prestataire.get("employee");
-
-        //Get employee first name
-        String firstName = (String) prestataireObject.get("firstName");
-        System.out.println(firstName);
-
-        //Get employee last name
-        String lastName = (String) prestataireObject.get("lastName");
-        System.out.println(lastName);
-
-        //Get employee website name
-        String website = (String) prestataireObject.get("website");
-        System.out.println(website);
-    }
 
 
     public Prestataire() {

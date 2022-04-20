@@ -87,6 +87,7 @@ public class FactureController {
     private TableauPrestation tabPresta = new TableauPrestation();
     private String imFile;
 
+
     @FXML
     protected void generationFacture() {
         alertSuccess.setVisible(true);
@@ -211,6 +212,7 @@ public class FactureController {
         webPresta.setText((String) prestataireObject.get("web"));
         banquePresta.setText((String) prestataireObject.get("banque"));
         ibanPresta.setText((String) prestataireObject.get("iban"));
+        imFile = (String) prestataireObject.get("logo");
 
 
 
