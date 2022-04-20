@@ -4,6 +4,7 @@ import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
 import com.modulefacturation.facturejfx.client.Prestation;
 import com.modulefacturation.facturejfx.facture.Facture;
+import com.modulefacturation.facturejfx.facture.Image;
 import com.modulefacturation.facturejfx.facture.TableauPrestation;
 import com.modulefacturation.facturejfx.mail.Mail;
 import javafx.event.ActionEvent;
@@ -78,11 +79,13 @@ public class FactureController {
     private Button btnClientInfos;
     @FXML
     private TextFlow alertInfo;
+    @FXML
+    private Button importLogo;
 
     private Boolean active;
     private ArrayList<Prestation> listepresta = new ArrayList<Prestation>();
     private TableauPrestation tabPresta = new TableauPrestation();
-
+    private String imFile;
 
     @FXML
     protected void generationFacture() {
@@ -118,7 +121,7 @@ public class FactureController {
         //création du pdf avec les infos client et presta
         Facture facture = new Facture();
         try {
-            facture.generationPdf(prestataire, client, tabPresta);
+            facture.generationPdf(prestataire, client, tabPresta, imFile);
 
         } catch (Exception  ex) {
             ex.printStackTrace();
@@ -179,7 +182,8 @@ public class FactureController {
                 siretPresta.getText(),
                 webPresta.getText(),
                 banquePresta.getText(),
-                ibanPresta.getText()
+                ibanPresta.getText(),
+                imFile
                 );
 
         prestataire.writeJson();
@@ -187,7 +191,6 @@ public class FactureController {
         alertSuccessPresta.setVisible(true);
         alertDangerPresta.setVisible(false);
     }
-
 
 
     public Prestataire initPrestataire(){
@@ -210,6 +213,7 @@ public class FactureController {
         ibanPresta.setText((String) prestataireObject.get("iban"));
 
 
+
         Prestataire prestataire = new Prestataire(
                 (String) prestataireObject.get("lastName"),
                 (String) prestataireObject.get("firstName"),
@@ -228,15 +232,12 @@ public class FactureController {
 
     }
 
-
     public Object recupPrestataire(){
 
         Object prestataire = Prestataire.readJson();
         System.out.println(prestataire);
         return prestataire;
     }
-
-
 
     @FXML
     public void retourClient(ActionEvent actionEvent) {
@@ -278,5 +279,19 @@ public class FactureController {
         quantity.clear();
     }
 
+    @FXML
+    public void importLogo(ActionEvent actionEvent){
+        Image image = new Image();
+        image.importLogo(actionEvent);
+        imFile = image.getImFile();
 
+    }
+
+    public String getImFile() {
+        return imFile;
+    }
+
+    public void setImFile(String imFile) {
+        this.imFile = imFile;
+    }
 }

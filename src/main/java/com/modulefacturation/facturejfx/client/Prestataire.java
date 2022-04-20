@@ -21,7 +21,22 @@ public class Prestataire {
     private String web;
     private String banque;
     private String iban;
+    private String logo;
 
+
+
+    public Prestataire(String lastName, String firstName, String adress, String mail, String motDePasseMail, String tel, String siret, String web, String banque, String iban) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.adress = adress;
+        this.mail = mail;
+        this.motDePasseMail = motDePasseMail;
+        this.tel = tel;
+        this.siret = siret;
+        this.web = web;
+        this.banque= banque;
+        this.iban = iban;
+    }
 
 
     //Sauvegarde des infos dans un JSON
@@ -39,6 +54,7 @@ public class Prestataire {
         prestataireDetails.put("web", this.web);
         prestataireDetails.put("banque", this.banque);
         prestataireDetails.put("iban", this.iban);
+        prestataireDetails.put("logo", this.logo);
 
         //JSONObject prestataireObject = new JSONObject();
        // prestataireObject.put("prestataire", prestataireDetails);
@@ -118,7 +134,7 @@ public class Prestataire {
 
 
 
-    public Prestataire(String lastName, String firstName, String adress, String mail, String password, String tel, String siret, String web, String banque, String iban) {
+    public Prestataire(String lastName, String firstName, String adress, String mail, String password, String tel, String siret, String web, String banque, String iban, String logo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.adress = adress;
@@ -129,6 +145,7 @@ public class Prestataire {
         this.web = web;
         this.banque= banque;
         this.iban = iban;
+        this.logo = logo;
     }
 
 
@@ -203,4 +220,12 @@ public class Prestataire {
     public String getIban() {return iban;}
 
     public void setIban(String iban) {this.iban = iban;}
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 }

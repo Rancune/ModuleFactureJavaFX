@@ -29,7 +29,7 @@
 
 
 
-    <GridPane fx:id="vueClient" disable="false" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="2" hgap="1" vgap="13" styleClass="page" >
+    <GridPane fx:id="vueClient" disable="false" visible="true" GridPane.columnIndex="0" GridPane.rowIndex="2" hgap="15" vgap="15" styleClass="page" >
 
         <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Nom"/>
         <TextField fx:id="nom" GridPane.columnIndex="1" GridPane.rowIndex="1"  promptText="Nom" styleClass="bg-default" GridPane.hgrow="ALWAYS"/>
@@ -102,7 +102,7 @@
 
 
 
-    <GridPane fx:id="vuePrestataire" disable="true" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="2" hgap="1" vgap="10" styleClass="page" >
+    <GridPane fx:id="vuePrestataire" disable="true" visible="false" GridPane.columnIndex="0" GridPane.rowIndex="2" hgap="15" vgap="15" styleClass="page" >
 
         <Label GridPane.columnIndex="0" GridPane.rowIndex="1" text="Nom"/>
         <TextField fx:id="nomPresta" GridPane.columnIndex="1" GridPane.rowIndex="1"  promptText="Nom" styleClass="bg-default" GridPane.hgrow="ALWAYS"/>
@@ -155,6 +155,11 @@
 
         <Button onAction="#sauvegardeInfoPrestataire" GridPane.columnIndex="1" GridPane.rowIndex="12" styleClass="btn, btn-lg, btn-success" text="Sauvegarder" GridPane.halignment="LEFT">        <tooltip>
             <Tooltip styleClass="tooltip-success" text="Enregistre les informations prestataire"/>
+        </tooltip>
+        </Button>
+
+        <Button onAction="#importLogo" GridPane.columnIndex="1" GridPane.rowIndex="12" styleClass="btn, btn-lg, btn-default" text="Mon Logo" GridPane.halignment="RIGHT">        <tooltip>
+            <Tooltip styleClass="tooltip-success" text="importer mon logo"/>
         </tooltip>
         </Button>
 

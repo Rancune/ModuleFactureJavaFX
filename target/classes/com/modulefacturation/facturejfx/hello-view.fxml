@@ -3,7 +3,10 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.web.*?>
 
 <VBox alignment="CENTER" prefHeight="800.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.modulefacturation.facturejfx.FactureController">
     <padding>
@@ -74,13 +77,37 @@
    <Button defaultButton="true" mnemonicParsing="false" text="Button" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" />
    <AnchorPane prefHeight="200.0" prefWidth="200.0" />
    <Label text="Label" />
-   <TextField promptText="Nom" />
+   <TextField promptText="Nom">
+      <contextMenu>
+         <ContextMenu>
+           <items>
+             <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+           </items>
+         </ContextMenu>
+      </contextMenu></TextField>
    <TextField promptText="Prénom" />
    <TextField promptText="Mail" />
     <Button styleClass="btn, btn-lg, btn-primary" text="test bouton" />
 
     <Label fx:id="welcomeText" />
+   <WebView prefHeight="200.0" prefWidth="200.0" />
     <Button onAction="#onHelloButtonClick" text="Hello!" />
+   <ProgressIndicator progress="0.0" />
+   <MediaView fitHeight="200.0" fitWidth="200.0" />
+   <ToggleButton mnemonicParsing="false" text="ToggleButton" />
+   <TreeView prefHeight="200.0" prefWidth="200.0" />
+   <TreeTableView prefHeight="200.0" prefWidth="200.0">
+     <columns>
+       <TreeTableColumn prefWidth="75.0" text="C1" />
+       <TreeTableColumn prefWidth="75.0" text="C2" />
+     </columns>
+   </TreeTableView>
+   <TreeTableView prefHeight="200.0" prefWidth="200.0">
+     <columns>
+       <TreeTableColumn prefWidth="75.0" text="C1" />
+       <TreeTableColumn prefWidth="75.0" text="C2" />
+     </columns>
+   </TreeTableView>
    <ButtonBar prefHeight="40.0" prefWidth="200.0">
      <buttons>
        <Button mnemonicParsing="false" text="Button" />
@@ -96,10 +123,13 @@
    </ToolBar>
    <DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="480.0">
        <header>
-         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0">
+            <children>
+               <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="87.0" layoutY="-61.0" pickOnBounds="true" preserveRatio="true" />
+            </children></AnchorPane>
        </header>
        <content>
-         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="49.0" prefWidth="493.0" />
        </content>
        <expandableContent>
          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />

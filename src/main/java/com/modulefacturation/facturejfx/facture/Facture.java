@@ -2,7 +2,9 @@ package com.modulefacturation.facturejfx.facture;
 
 
 
-import com.itextpdf.kernel.colors.Color;
+
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
@@ -18,6 +20,7 @@ import com.itextpdf.layout.properties.VerticalAlignment;
 import com.modulefacturation.facturejfx.client.Client;
 import com.modulefacturation.facturejfx.client.Prestataire;
 import com.modulefacturation.facturejfx.client.Prestation;
+import org.w3c.dom.Element;
 
 
 import java.io.FileNotFoundException;
@@ -87,7 +90,7 @@ public class Facture {
 
 
     // ICI on crée le pdf de la facture. Buckle Up !  that's a wild ride.
-    public static void generationPdf(Prestataire prestataire, Client client, TableauPrestation tabPrestation) throws Exception , FileNotFoundException {
+    public static void generationPdf(Prestataire prestataire, Client client, TableauPrestation tabPrestation, String imFile) throws Exception , FileNotFoundException {
 
 
 
@@ -134,13 +137,17 @@ public class Facture {
 
 
 
+
         //********************création des différents paragraphes du document******************************
 
 
         //création du paragraphe du logo
-        var logo = new Paragraph("Ici mon logo");
-        logo.setFont(font).setFontSize(24).setBold();
-        //TODO ajouter l'import de l'image pour le logo
+        //Creating ImageData Objet
+        ImageData data = ImageDataFactory.create(imFile);
+        com.itextpdf.layout.element.Image image = new com.itextpdf.layout.element.Image(data);
+        Cell cell = new Cell();
+        var logo = cell.add(image.setAutoScale(true));
+
 
 
         //création du paragraphe Titre facture avec date
@@ -215,7 +222,7 @@ public class Facture {
 
         //***********************************CREATION DES TABLES à ajouter dans le PDF*************************
 
-        //Création de tableau Logo
+        //Création de tableau Logo et facture
         // Creating a table object
         float [] dimensionsLogo = {500F, 500F};
         Table tableLogo = new Table(dimensionsLogo);
@@ -223,8 +230,8 @@ public class Facture {
         //tableLogo.setBorder(null);
         tableLogo.setMarginBottom(70);
         // Adding cells to the table
-        tableLogo.addCell(new Cell().add(logo).setTextAlignment(CENTER).setBorder(null));
-        tableLogo.addCell(new Cell().add(facture).add(date).setTextAlignment(CENTER).setBorder(null));
+        tableLogo.addCell(new Cell().add(logo).setBorder(null));
+        tableLogo.addCell(new Cell().add(facture).add(date).setTextAlignment(CENTER).setBorder(null).setVerticalAlignment(VerticalAlignment.MIDDLE));
 
 
         //Création du tableau des infos prestataire et client
@@ -245,8 +252,7 @@ public class Facture {
         tablePresta.addCell("Prestation").setTextAlignment(CENTER).setBold().setBackgroundColor(ColorConstants.GRAY).setFontColor(ColorConstants.WHITE);
         tablePresta.addCell("Quantité").setTextAlignment(CENTER).setBold();
         tablePresta.addCell("Prix unitaire").setTextAlignment(CENTER).setBold();
-        //TODO les prestas sont alignées à gauche le reste au centre
-        //liste.stream().forEach(entry ->tablePresta.addCell(entry.getPresta()));
+
         for (Prestation listeP: tabPrestation.getListe()) {
             tablePresta.addCell(listeP.presta).setTextAlignment(LEFT).setBackgroundColor(ColorConstants.LIGHT_GRAY);
             tablePresta.addCell(String.valueOf(listeP.quantité)).setTextAlignment(CENTER);
@@ -262,7 +268,6 @@ public class Facture {
         //Création du tableau du prix et des information légales
         float [] dimensionsPrix = {500F, 150f, 200f};
         Table tablePrix = new Table(dimensionsPrix);
-        //tablePrix.setBorder(Border.NO_BORDER);
         tablePrix.addCell(new Cell().add(paragraphInformationLegales).setTextAlignment(LEFT).setBorder(Border.NO_BORDER));
         tablePrix.addCell(new Cell().add(paragraphePrix).setTextAlignment(RIGHT).setBorder(Border.NO_BORDER));
         tablePrix.addCell(new Cell().add(paragrapheTotal).setTextAlignment(RIGHT).setBorder(Border.NO_BORDER));
@@ -282,6 +287,7 @@ public class Facture {
         doc.add(tablePresta);
 
         doc.add(tablePrix);
+
 
 
         // Ajout du numéro de page
