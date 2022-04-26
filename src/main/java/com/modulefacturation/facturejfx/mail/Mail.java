@@ -23,25 +23,28 @@ public class Mail {
 
 
     // for example, smtp.mailgun.org
-    private static final String SMTP_SERVER = "smtp-relay.gmail.com"; //renseigner le serv SMTP utilisé
-    private static final String USERNAME = testUserMail; // renseigner l'adresse mail du compte qui va envoyer le mail
-    private static final String PASSWORD = testUserPassword; // renseigner le mot de passe du compte mail qui va envoyer le mail
+    private static  String SMTP_SERVER = "smtp-relay.gmail.com"; //renseigner le serv SMTP utilisé
+    private static  String USERNAME = testUserMail; // renseigner l'adresse mail du compte qui va envoyer le mail
+    private static  String PASSWORD = testUserPassword; // renseigner le mot de passe du compte mail qui va envoyer le mail
 
-    private static final String EMAIL_FROM = testUserMail;
-    private static final String EMAIL_TO = testUserMail;
-    private static final String EMAIL_TO_CC = "";
+    private static String EMAIL_FROM = testUserMail;
+    private static  String EMAIL_TO = testUserMail;
+    private static  String EMAIL_TO_CC = "";
 
-    private static final String EMAIL_SUBJECT = "Test Send Email via SMTP (ATTACHMENT)";
-    private static final String EMAIL_TEXT = "Hello Java Mail \n This is a test for attachment ";
+    private static  String EMAIL_SUBJECT = "Test Send Email via SMTP (ATTACHMENT)";
+    private static  String EMAIL_TEXT = "Hello Java Mail \n This is a test for attachment ";
 
+    public Mail() {
+    }
 
 
     //Mon Constructeur
-    //public Mail(Object Destinataire){
-        //this.EMAIL_FROM = destinataire.envoyeur;
-        //this.EMAIL_TO = destinataire.email;
-        //this.path = destinataire.path;
-    //}
+    public Mail(Destinataire destinataire){
+        System.out.println(destinataire.getEmail());
+        this.EMAIL_FROM = destinataire.getEnvoyeur();
+        this.EMAIL_TO = destinataire.getEmail();
+       //this.path = destinataire.path;
+    }
 
 
 

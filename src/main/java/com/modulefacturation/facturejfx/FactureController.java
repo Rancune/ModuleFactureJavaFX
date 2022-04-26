@@ -6,6 +6,7 @@ import com.modulefacturation.facturejfx.client.Prestation;
 import com.modulefacturation.facturejfx.facture.Facture;
 import com.modulefacturation.facturejfx.facture.Image;
 import com.modulefacturation.facturejfx.facture.TableauPrestation;
+import com.modulefacturation.facturejfx.mail.Destinataire;
 import com.modulefacturation.facturejfx.mail.Mail;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -108,13 +109,11 @@ public class FactureController {
         client.checkCreation();
 
 
-        //récupération des infos presta
+        //récupération des infos prestation
         Prestation prestas = new Prestation();
         prestas.setPresta(prestation.getText());
         prestas.setQuantité(Integer.parseInt(quantity.getText()));
         prestas.setTarif(Integer.parseInt(prix.getText()));
-
-
         // prestation.addToliste(prestation);
         tabPresta.ajoutPrestationsListe(prestas);
 
@@ -129,20 +128,18 @@ public class FactureController {
         }
 
 
-/* PAS MOYEN DE TESTER L'ENVOIE DE MAIL A L'AFPA LE PAREFEU BLOQUE
+        //PAS MOYEN DE TESTER L'ENVOIE DE MAIL A L'AFPA LE PAREFEU BLOQUE
 
-                //Je vais créer un mail et l'envoyer
-                String path = null;
-                String envoyeur = null;
+        //Je vais créer un mail et l'envoyer
+        String path = null;
+        String envoyeur = prestataire.getMail();
 
-                Destinataire destinataire = new Destinataire(client.getMail(), path, envoyeur);
-                Mail email = new Mail(destinataire);
-                email.envoyerMail();
-                */
-
+        Destinataire destinataire = new Destinataire(client.getMail(), path, envoyeur);
+        Mail email = new Mail(destinataire);
+        email.envoyerMail();
 
         //On envoie le mail
-        Mail mail = new Mail();
+        //Mail mail = new Mail();
         // mail.envoyerMail();
         // System.out.println("Email envoyé correctement");
 
